@@ -39,13 +39,17 @@ const createEvent = async (hostId: string, payload: Prisma.EventCreateInput) => 
     );
   }
 
-  const eventDateTime = new Date(`${date}T${time}:00`);
+  const eventDateTime = time
+  ? new Date(`${date}T${time}`)
+  : new Date(`${date}T00:00`);
+
 
   const event = await prisma.event.create({
     data: {
       name,
       type,
       date: eventDateTime,
+      time,
       location,
       minParticipants,
       maxParticipants,
@@ -76,27 +80,59 @@ const jointEvents = async (userId: string, eventId: string) => {
     throw new AppError(httpStatus.FORBIDDEN, "Only users can join events");
   }
 
-  const event = await prisma.event.findFirst({
+  // check already joined
+const alreadyJoined = await prisma.eventParticipant.findFirst({
+  where: { userId, eventId }
+});
+
+if (alreadyJoined) {
+  throw new AppError(httpStatus.BAD_REQUEST, "You already joined this event");
+}
+
+// check existing payment
+const existingPayment = await prisma.payment.findFirst({
+  where: { userId, eventId }
+});
+
+if (existingPayment) {
+  throw new AppError(httpStatus.BAD_REQUEST, "Payment already exists for this event");
+}
+
+
+  const eventData = await prisma.event.findFirst({
     where: { id: eventId },
   });
 
-  if (!event) {
+  if (!eventData) {
     throw new AppError(httpStatus.NOT_FOUND, "Event not found");
   }
 
+// disallow joining past events
   const nowDate = new Date();
-
-  if (new Date(event.date) < nowDate) {
+  if (new Date(eventData.date) < nowDate) {
     throw new AppError(httpStatus.BAD_REQUEST, "Cannot join past events");
   }
 
+//  check max participants
+  if (eventData.participantCount > eventData.maxParticipants) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Event has reached maximum participants");
+  }
 
+  // increment participant count
+  const participantCount = eventData.participantCount + 1;
+
+ 
   const result = await prisma.$transaction(async (tnx) => {
+
+    await tnx.event.update({
+      where: { id: eventData.id },
+      data: { participantCount}
+    })
 
    const eventParticipant = await tnx.eventParticipant.create({
       data: {
         userId,
-        eventId: event.id
+        eventId: eventData.id
       },
     });
 
@@ -106,8 +142,8 @@ const jointEvents = async (userId: string, eventId: string) => {
     const paymentData = await tnx.payment.create({
       data: {
         userId: user.id,
-        eventId: event.id,
-        amount: event.fee,
+        eventId: eventData.id,
+        amount: eventData.fee,
         transactionId
       }
     })
@@ -122,15 +158,15 @@ const jointEvents = async (userId: string, eventId: string) => {
           price_data: {
             currency: "bdt",
             product_data: {
-              name: `Event with ${event.name}`,
+              name: `Event with ${eventData.name}`,
             },
-            unit_amount: event.fee * 100,
+            unit_amount: eventData.fee * 100,
           },
           quantity: 1,
         },
       ],
       metadata: {
-        eventParticipantsId: eventParticipant.id,
+        participantId: eventParticipant.id,
         paymentId: paymentData.id
       },
       success_url: `https://www.programming-hero.com/`,
