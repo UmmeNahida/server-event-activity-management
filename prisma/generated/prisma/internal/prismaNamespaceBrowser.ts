@@ -85,6 +85,7 @@ export const EventScalarFieldEnum = {
   time: 'time',
   minParticipants: 'minParticipants',
   maxParticipants: 'maxParticipants',
+  participantCount: 'participantCount',
   fee: 'fee',
   status: 'status',
   createdAt: 'createdAt',

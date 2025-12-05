@@ -29,12 +29,14 @@ export type AggregateEvent = {
 export type EventAvgAggregateOutputType = {
   minParticipants: number | null
   maxParticipants: number | null
+  participantCount: number | null
   fee: number | null
 }
 
 export type EventSumAggregateOutputType = {
   minParticipants: number | null
   maxParticipants: number | null
+  participantCount: number | null
   fee: number | null
 }
 
@@ -49,6 +51,7 @@ export type EventMinAggregateOutputType = {
   time: string | null
   minParticipants: number | null
   maxParticipants: number | null
+  participantCount: number | null
   fee: number | null
   status: $Enums.EventStatus | null
   createdAt: Date | null
@@ -66,6 +69,7 @@ export type EventMaxAggregateOutputType = {
   time: string | null
   minParticipants: number | null
   maxParticipants: number | null
+  participantCount: number | null
   fee: number | null
   status: $Enums.EventStatus | null
   createdAt: Date | null
@@ -83,6 +87,7 @@ export type EventCountAggregateOutputType = {
   time: number
   minParticipants: number
   maxParticipants: number
+  participantCount: number
   fee: number
   status: number
   createdAt: number
@@ -94,12 +99,14 @@ export type EventCountAggregateOutputType = {
 export type EventAvgAggregateInputType = {
   minParticipants?: true
   maxParticipants?: true
+  participantCount?: true
   fee?: true
 }
 
 export type EventSumAggregateInputType = {
   minParticipants?: true
   maxParticipants?: true
+  participantCount?: true
   fee?: true
 }
 
@@ -114,6 +121,7 @@ export type EventMinAggregateInputType = {
   time?: true
   minParticipants?: true
   maxParticipants?: true
+  participantCount?: true
   fee?: true
   status?: true
   createdAt?: true
@@ -131,6 +139,7 @@ export type EventMaxAggregateInputType = {
   time?: true
   minParticipants?: true
   maxParticipants?: true
+  participantCount?: true
   fee?: true
   status?: true
   createdAt?: true
@@ -148,6 +157,7 @@ export type EventCountAggregateInputType = {
   time?: true
   minParticipants?: true
   maxParticipants?: true
+  participantCount?: true
   fee?: true
   status?: true
   createdAt?: true
@@ -252,6 +262,7 @@ export type EventGroupByOutputType = {
   time: string | null
   minParticipants: number
   maxParticipants: number
+  participantCount: number
   fee: number
   status: $Enums.EventStatus
   createdAt: Date
@@ -292,6 +303,7 @@ export type EventWhereInput = {
   time?: Prisma.StringNullableFilter<"Event"> | string | null
   minParticipants?: Prisma.IntFilter<"Event"> | number
   maxParticipants?: Prisma.IntFilter<"Event"> | number
+  participantCount?: Prisma.IntFilter<"Event"> | number
   fee?: Prisma.FloatFilter<"Event"> | number
   status?: Prisma.EnumEventStatusFilter<"Event"> | $Enums.EventStatus
   createdAt?: Prisma.DateTimeFilter<"Event"> | Date | string
@@ -313,6 +325,7 @@ export type EventOrderByWithRelationInput = {
   time?: Prisma.SortOrderInput | Prisma.SortOrder
   minParticipants?: Prisma.SortOrder
   maxParticipants?: Prisma.SortOrder
+  participantCount?: Prisma.SortOrder
   fee?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -337,6 +350,7 @@ export type EventWhereUniqueInput = Prisma.AtLeast<{
   time?: Prisma.StringNullableFilter<"Event"> | string | null
   minParticipants?: Prisma.IntFilter<"Event"> | number
   maxParticipants?: Prisma.IntFilter<"Event"> | number
+  participantCount?: Prisma.IntFilter<"Event"> | number
   fee?: Prisma.FloatFilter<"Event"> | number
   status?: Prisma.EnumEventStatusFilter<"Event"> | $Enums.EventStatus
   createdAt?: Prisma.DateTimeFilter<"Event"> | Date | string
@@ -358,6 +372,7 @@ export type EventOrderByWithAggregationInput = {
   time?: Prisma.SortOrderInput | Prisma.SortOrder
   minParticipants?: Prisma.SortOrder
   maxParticipants?: Prisma.SortOrder
+  participantCount?: Prisma.SortOrder
   fee?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -383,6 +398,7 @@ export type EventScalarWhereWithAggregatesInput = {
   time?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null
   minParticipants?: Prisma.IntWithAggregatesFilter<"Event"> | number
   maxParticipants?: Prisma.IntWithAggregatesFilter<"Event"> | number
+  participantCount?: Prisma.IntWithAggregatesFilter<"Event"> | number
   fee?: Prisma.FloatWithAggregatesFilter<"Event"> | number
   status?: Prisma.EnumEventStatusWithAggregatesFilter<"Event"> | $Enums.EventStatus
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Event"> | Date | string
@@ -400,6 +416,7 @@ export type EventCreateInput = {
   time?: string | null
   minParticipants: number
   maxParticipants: number
+  participantCount?: number
   fee?: number
   status?: $Enums.EventStatus
   createdAt?: Date | string
@@ -420,6 +437,7 @@ export type EventUncheckedCreateInput = {
   time?: string | null
   minParticipants: number
   maxParticipants: number
+  participantCount?: number
   fee?: number
   status?: $Enums.EventStatus
   createdAt?: Date | string
@@ -440,6 +458,7 @@ export type EventUpdateInput = {
   time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minParticipants?: Prisma.IntFieldUpdateOperationsInput | number
   maxParticipants?: Prisma.IntFieldUpdateOperationsInput | number
+  participantCount?: Prisma.IntFieldUpdateOperationsInput | number
   fee?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -460,6 +479,7 @@ export type EventUncheckedUpdateInput = {
   time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minParticipants?: Prisma.IntFieldUpdateOperationsInput | number
   maxParticipants?: Prisma.IntFieldUpdateOperationsInput | number
+  participantCount?: Prisma.IntFieldUpdateOperationsInput | number
   fee?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -480,6 +500,7 @@ export type EventCreateManyInput = {
   time?: string | null
   minParticipants: number
   maxParticipants: number
+  participantCount?: number
   fee?: number
   status?: $Enums.EventStatus
   createdAt?: Date | string
@@ -497,6 +518,7 @@ export type EventUpdateManyMutationInput = {
   time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minParticipants?: Prisma.IntFieldUpdateOperationsInput | number
   maxParticipants?: Prisma.IntFieldUpdateOperationsInput | number
+  participantCount?: Prisma.IntFieldUpdateOperationsInput | number
   fee?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -513,6 +535,7 @@ export type EventUncheckedUpdateManyInput = {
   time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minParticipants?: Prisma.IntFieldUpdateOperationsInput | number
   maxParticipants?: Prisma.IntFieldUpdateOperationsInput | number
+  participantCount?: Prisma.IntFieldUpdateOperationsInput | number
   fee?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -530,6 +553,7 @@ export type EventCountOrderByAggregateInput = {
   time?: Prisma.SortOrder
   minParticipants?: Prisma.SortOrder
   maxParticipants?: Prisma.SortOrder
+  participantCount?: Prisma.SortOrder
   fee?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -539,6 +563,7 @@ export type EventCountOrderByAggregateInput = {
 export type EventAvgOrderByAggregateInput = {
   minParticipants?: Prisma.SortOrder
   maxParticipants?: Prisma.SortOrder
+  participantCount?: Prisma.SortOrder
   fee?: Prisma.SortOrder
 }
 
@@ -553,6 +578,7 @@ export type EventMaxOrderByAggregateInput = {
   time?: Prisma.SortOrder
   minParticipants?: Prisma.SortOrder
   maxParticipants?: Prisma.SortOrder
+  participantCount?: Prisma.SortOrder
   fee?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -570,6 +596,7 @@ export type EventMinOrderByAggregateInput = {
   time?: Prisma.SortOrder
   minParticipants?: Prisma.SortOrder
   maxParticipants?: Prisma.SortOrder
+  participantCount?: Prisma.SortOrder
   fee?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -579,6 +606,7 @@ export type EventMinOrderByAggregateInput = {
 export type EventSumOrderByAggregateInput = {
   minParticipants?: Prisma.SortOrder
   maxParticipants?: Prisma.SortOrder
+  participantCount?: Prisma.SortOrder
   fee?: Prisma.SortOrder
 }
 
@@ -724,6 +752,7 @@ export type EventCreateWithoutParticipantsInput = {
   time?: string | null
   minParticipants: number
   maxParticipants: number
+  participantCount?: number
   fee?: number
   status?: $Enums.EventStatus
   createdAt?: Date | string
@@ -743,6 +772,7 @@ export type EventUncheckedCreateWithoutParticipantsInput = {
   time?: string | null
   minParticipants: number
   maxParticipants: number
+  participantCount?: number
   fee?: number
   status?: $Enums.EventStatus
   createdAt?: Date | string
@@ -778,6 +808,7 @@ export type EventUpdateWithoutParticipantsInput = {
   time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minParticipants?: Prisma.IntFieldUpdateOperationsInput | number
   maxParticipants?: Prisma.IntFieldUpdateOperationsInput | number
+  participantCount?: Prisma.IntFieldUpdateOperationsInput | number
   fee?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -797,6 +828,7 @@ export type EventUncheckedUpdateWithoutParticipantsInput = {
   time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minParticipants?: Prisma.IntFieldUpdateOperationsInput | number
   maxParticipants?: Prisma.IntFieldUpdateOperationsInput | number
+  participantCount?: Prisma.IntFieldUpdateOperationsInput | number
   fee?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -816,6 +848,7 @@ export type EventCreateWithoutPaymentsInput = {
   time?: string | null
   minParticipants: number
   maxParticipants: number
+  participantCount?: number
   fee?: number
   status?: $Enums.EventStatus
   createdAt?: Date | string
@@ -835,6 +868,7 @@ export type EventUncheckedCreateWithoutPaymentsInput = {
   time?: string | null
   minParticipants: number
   maxParticipants: number
+  participantCount?: number
   fee?: number
   status?: $Enums.EventStatus
   createdAt?: Date | string
@@ -870,6 +904,7 @@ export type EventUpdateWithoutPaymentsInput = {
   time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minParticipants?: Prisma.IntFieldUpdateOperationsInput | number
   maxParticipants?: Prisma.IntFieldUpdateOperationsInput | number
+  participantCount?: Prisma.IntFieldUpdateOperationsInput | number
   fee?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -889,6 +924,7 @@ export type EventUncheckedUpdateWithoutPaymentsInput = {
   time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minParticipants?: Prisma.IntFieldUpdateOperationsInput | number
   maxParticipants?: Prisma.IntFieldUpdateOperationsInput | number
+  participantCount?: Prisma.IntFieldUpdateOperationsInput | number
   fee?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -908,6 +944,7 @@ export type EventCreateWithoutReviewsInput = {
   time?: string | null
   minParticipants: number
   maxParticipants: number
+  participantCount?: number
   fee?: number
   status?: $Enums.EventStatus
   createdAt?: Date | string
@@ -927,6 +964,7 @@ export type EventUncheckedCreateWithoutReviewsInput = {
   time?: string | null
   minParticipants: number
   maxParticipants: number
+  participantCount?: number
   fee?: number
   status?: $Enums.EventStatus
   createdAt?: Date | string
@@ -962,6 +1000,7 @@ export type EventUpdateWithoutReviewsInput = {
   time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minParticipants?: Prisma.IntFieldUpdateOperationsInput | number
   maxParticipants?: Prisma.IntFieldUpdateOperationsInput | number
+  participantCount?: Prisma.IntFieldUpdateOperationsInput | number
   fee?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -981,6 +1020,7 @@ export type EventUncheckedUpdateWithoutReviewsInput = {
   time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minParticipants?: Prisma.IntFieldUpdateOperationsInput | number
   maxParticipants?: Prisma.IntFieldUpdateOperationsInput | number
+  participantCount?: Prisma.IntFieldUpdateOperationsInput | number
   fee?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1000,6 +1040,7 @@ export type EventCreateWithoutHostInput = {
   time?: string | null
   minParticipants: number
   maxParticipants: number
+  participantCount?: number
   fee?: number
   status?: $Enums.EventStatus
   createdAt?: Date | string
@@ -1019,6 +1060,7 @@ export type EventUncheckedCreateWithoutHostInput = {
   time?: string | null
   minParticipants: number
   maxParticipants: number
+  participantCount?: number
   fee?: number
   status?: $Enums.EventStatus
   createdAt?: Date | string
@@ -1067,6 +1109,7 @@ export type EventScalarWhereInput = {
   time?: Prisma.StringNullableFilter<"Event"> | string | null
   minParticipants?: Prisma.IntFilter<"Event"> | number
   maxParticipants?: Prisma.IntFilter<"Event"> | number
+  participantCount?: Prisma.IntFilter<"Event"> | number
   fee?: Prisma.FloatFilter<"Event"> | number
   status?: Prisma.EnumEventStatusFilter<"Event"> | $Enums.EventStatus
   createdAt?: Prisma.DateTimeFilter<"Event"> | Date | string
@@ -1084,6 +1127,7 @@ export type EventCreateManyHostInput = {
   time?: string | null
   minParticipants: number
   maxParticipants: number
+  participantCount?: number
   fee?: number
   status?: $Enums.EventStatus
   createdAt?: Date | string
@@ -1100,6 +1144,7 @@ export type EventUpdateWithoutHostInput = {
   time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minParticipants?: Prisma.IntFieldUpdateOperationsInput | number
   maxParticipants?: Prisma.IntFieldUpdateOperationsInput | number
+  participantCount?: Prisma.IntFieldUpdateOperationsInput | number
   fee?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1119,6 +1164,7 @@ export type EventUncheckedUpdateWithoutHostInput = {
   time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minParticipants?: Prisma.IntFieldUpdateOperationsInput | number
   maxParticipants?: Prisma.IntFieldUpdateOperationsInput | number
+  participantCount?: Prisma.IntFieldUpdateOperationsInput | number
   fee?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1138,6 +1184,7 @@ export type EventUncheckedUpdateManyWithoutHostInput = {
   time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minParticipants?: Prisma.IntFieldUpdateOperationsInput | number
   maxParticipants?: Prisma.IntFieldUpdateOperationsInput | number
+  participantCount?: Prisma.IntFieldUpdateOperationsInput | number
   fee?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1203,6 +1250,7 @@ export type EventSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   time?: boolean
   minParticipants?: boolean
   maxParticipants?: boolean
+  participantCount?: boolean
   fee?: boolean
   status?: boolean
   createdAt?: boolean
@@ -1225,6 +1273,7 @@ export type EventSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   time?: boolean
   minParticipants?: boolean
   maxParticipants?: boolean
+  participantCount?: boolean
   fee?: boolean
   status?: boolean
   createdAt?: boolean
@@ -1243,6 +1292,7 @@ export type EventSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   time?: boolean
   minParticipants?: boolean
   maxParticipants?: boolean
+  participantCount?: boolean
   fee?: boolean
   status?: boolean
   createdAt?: boolean
@@ -1261,13 +1311,14 @@ export type EventSelectScalar = {
   time?: boolean
   minParticipants?: boolean
   maxParticipants?: boolean
+  participantCount?: boolean
   fee?: boolean
   status?: boolean
   createdAt?: boolean
   hostId?: boolean
 }
 
-export type EventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "type" | "description" | "location" | "image" | "date" | "time" | "minParticipants" | "maxParticipants" | "fee" | "status" | "createdAt" | "hostId", ExtArgs["result"]["event"]>
+export type EventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "type" | "description" | "location" | "image" | "date" | "time" | "minParticipants" | "maxParticipants" | "participantCount" | "fee" | "status" | "createdAt" | "hostId", ExtArgs["result"]["event"]>
 export type EventInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   host?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   payments?: boolean | Prisma.Event$paymentsArgs<ExtArgs>
@@ -1301,6 +1352,7 @@ export type $EventPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     time: string | null
     minParticipants: number
     maxParticipants: number
+    participantCount: number
     fee: number
     status: $Enums.EventStatus
     createdAt: Date
@@ -1742,6 +1794,7 @@ export interface EventFieldRefs {
   readonly time: Prisma.FieldRef<"Event", 'String'>
   readonly minParticipants: Prisma.FieldRef<"Event", 'Int'>
   readonly maxParticipants: Prisma.FieldRef<"Event", 'Int'>
+  readonly participantCount: Prisma.FieldRef<"Event", 'Int'>
   readonly fee: Prisma.FieldRef<"Event", 'Float'>
   readonly status: Prisma.FieldRef<"Event", 'EventStatus'>
   readonly createdAt: Prisma.FieldRef<"Event", 'DateTime'>

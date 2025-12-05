@@ -28,8 +28,8 @@ export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
 
 export const EventStatus = {
   OPEN: 'OPEN',
-  FULL: 'FULL',
-  Cancelled: 'Cancelled',
+  CLOSED: 'CLOSED',
+  CANCELLED: 'CANCELLED',
   COMPLETED: 'COMPLETED'
 } as const
 
