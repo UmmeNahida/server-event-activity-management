@@ -16,5 +16,5 @@
     // "verbatimModuleSyntax": true,
     // "isolatedModules": true
   },
-  "include": ["src", "generated"]
+  "include": ["src","/generated"]
 }

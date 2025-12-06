@@ -10,6 +10,7 @@ model Event {
   time            String?
   minParticipants Int
   maxParticipants Int
+  participantCount  Int      @default(0)
   fee             Float    @default(0)
   status          EventStatus  @default(OPEN) 
   createdAt       DateTime @default(now())

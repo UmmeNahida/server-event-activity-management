@@ -7,7 +7,7 @@ const handleStripeWebhookEvent = async (event: Stripe.Event) => {
         case "checkout.session.completed": {
             const session = event.data.object as any;
 
-            console.log("sesscion from webhook:", session)
+            // console.log("sesscion from webhook:", session)
 
             const participantId = session.metadata?.participantId;
             const paymentId = session.metadata?.paymentId;
@@ -31,7 +31,7 @@ const handleStripeWebhookEvent = async (event: Stripe.Event) => {
                 }
             })
 
-             console.log("session", session)
+             console.log("web hook session", session)
             break;
         }
 

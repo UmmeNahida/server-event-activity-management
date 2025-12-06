@@ -11,8 +11,8 @@ enum PaymentStatus {
 
 enum EventStatus {
   OPEN
-  FULL
-  Cancelled
+  CLOSED
+  CANCELLED
   COMPLETED
 }
 
