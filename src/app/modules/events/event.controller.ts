@@ -35,25 +35,10 @@ const allEvent = catchAsync(async(req:Request & JwtPayload,res:Response, next:Ne
 })
 
 
-const joinEvent = catchAsync(async(req:Request & JwtPayload,res:Response, next:NextFunction)=>{
 
-   const userId = req.user.id; // From JWT
-   const eventId = req.params.id;
-   
-    // const hostId = req.user.id; // From JWT
-    const result = await EventService.jointEvents(userId, eventId);
-
-    sendResponse(res, {
-      statusCode: 201,
-      success: true,
-      message: "You're Joint Events successfully",
-      data: result,
-    });
-})
 
 
 export const EventController = {
     createEvent,
-    allEvent,
-    joinEvent
+    allEvent
 }

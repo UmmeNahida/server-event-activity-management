@@ -20,10 +20,5 @@ router.get(
   "/",
   EventController.allEvent
 );
-router.post(
-  "/joint-event/:id",
-  authCookies(Role.USER, Role.HOST),
-  EventController.joinEvent
-);
 
 export const EventRoutes = router;
