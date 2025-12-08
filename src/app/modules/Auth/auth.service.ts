@@ -24,7 +24,6 @@ export const registerUser = async (userData:Partial<Prisma.UserCreateInput>,file
     userData.image = uploads!.secure_url as string;
   }
 
-
   // hash password
   const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -76,6 +75,7 @@ export const loginUser = async (data: Partial<Prisma.UserCreateInput>) => {
 
 const payloadJwt = {
         id: user.id,
+        name: user.name,
         email: user.email,
         role: user.role
     }
@@ -85,7 +85,7 @@ const payloadJwt = {
   return {
     accessToken,
     refreshToken,
-    user: {user},
+    user: user,
   };
 };
 

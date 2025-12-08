@@ -8,17 +8,12 @@ export const validationSchema = (schema: ZodObject) => (
 ) => {
   let parsedData: any;
 
-
-  console.log("req body", req.body)
-
   try {
     // Case 1: req.body.data exists → usually from multipart/form-data
     if (req.body?.data) {
       // If data is a string → try JSON.parse
-      console.log("testing", req.body.data)
       if(typeof req.body.data === "string") {
-        parsedData = JSON.parse(req.body.data);
-      console.log("parse", parsedData)
+        parsedData = JSON.parse(req.body.data)
       } else {
         parsedData = req.body.data;
       }
