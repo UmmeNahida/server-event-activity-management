@@ -17,8 +17,9 @@ router.post(
 );
 
 router.get(
-  "/",
-  EventController.allEvent
+  "/my-events",
+  authCookies(Role.HOST, Role.USER),
+  EventController.myEvents
 );
 
 export const EventRoutes = router;
