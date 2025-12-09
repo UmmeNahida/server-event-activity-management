@@ -126,6 +126,7 @@ const jointEvents = async (userId: string, eventId: string) => {
 const addReview = async(user: JwtPayload, payload: IReview)=> {
   const { eventId, rating, comment } = payload;
 
+
   // 1. Check user participated
   const participated = await prisma.eventParticipant.findFirst({
     where: {
@@ -147,6 +148,11 @@ const addReview = async(user: JwtPayload, payload: IReview)=> {
 
   if (new Date(event.date) > new Date()) {
     throw new AppError(400, "You can review only completed events!");
+  }
+
+  // rating 
+  if(rating > 5){
+    throw new AppError(httpStatus.BAD_REQUEST, "please give 5 ratings")
   }
 
   // 3. Create review

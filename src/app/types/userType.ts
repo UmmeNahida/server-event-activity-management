@@ -14,3 +14,13 @@ export interface IReview {
   rating: number;
   comment: string
 }
+
+export type UserRole = 'ADMIN' | 'HOST' | 'USER';
+
+export interface IVerifiedUser {
+  id: string;
+  email:string;
+  role: UserRole;
+  iat:number;
+  exp:number
+}

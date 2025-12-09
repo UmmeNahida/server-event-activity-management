@@ -3,6 +3,8 @@ import { prisma } from "../../../lib/prisma";
 import AppError from "../../customizer/AppErrror";
 import { Prisma } from "../../../../prisma/generated/prisma/client";
 import { JwtPayload } from "jsonwebtoken";
+import { IVerifiedUser } from "../../types/userType";
+import { id } from "zod/v4/locales";
 
 
 const createEvent = async (hostId: string, payload: Prisma.EventCreateInput) => {
@@ -61,6 +63,27 @@ const createEvent = async (hostId: string, payload: Prisma.EventCreateInput) => 
   return event;
 };
 
+
+const updateEvent = async (eventId: string, userInfo: IVerifiedUser, updateInfo: Prisma.EventUpdateInput) => {
+  
+  // check if exist host
+  const isExistHost = await prisma.event.findUniqueOrThrow({
+    where: {id: eventId, hostId: userInfo.id}
+   })
+
+   // check permission
+  if (isExistHost.hostId !== userInfo.id) {
+    throw new AppError(403, "You are not allowed to edit this event");
+  }
+
+   const updateEvents = await prisma.event.update({
+     where: {id: eventId, hostId:userInfo.id},
+     data: updateInfo
+   })
+
+   return updateEvents;
+   
+};
 
 const getAllEvents = async () => {
   const events = await prisma.event.findMany();
@@ -190,10 +213,89 @@ const getMyReview = async (userInfo: JwtPayload) => {
 }
 
 
+const getUpcomingEvents =(user:IVerifiedUser) =>{
+  const now = new Date();
+
+  // USER → upcoming joined events
+  if (user.role === "USER") {
+    return prisma.event.findMany({
+      where: {
+        date: { gt: now },
+        participants: {
+          some: { userId: user.id },
+        },
+      },
+      include: { host: true },
+      orderBy: { date: "asc" }
+    });
+  }
+
+  // HOST → upcoming hosted events
+  if (user.role === "HOST") {
+    return prisma.event.findMany({
+      where: {
+        date: { gt: now },
+        hostId: user.id,
+      },
+      include: { participants: true },
+      orderBy: { date: "asc" }
+    });
+  }
+
+  // ADMIN → all upcoming events
+  if (user.role === "ADMIN") {
+    return prisma.event.findMany({
+      where: { date: { gt: now } },
+      orderBy: { date: "asc" }
+    });
+  }
+}
+
+
+const getEventHistory = async(user:IVerifiedUser) =>{
+  const now = new Date();
+  console.log("user>>>:", user)
+
+  if (user.role === "USER") {
+    return await prisma.event.findMany({
+      where: {
+        date: { lt: now },
+        participants: { some: { userId: user.id } },
+      },
+      include: { host: true },
+      orderBy: { date: "desc" }
+    });
+  }
+
+  if (user.role === "HOST") {
+    return await prisma.event.findMany({
+      where: {
+        date: { lt: now },
+        hostId: user.id,
+      },
+      include: { participants: true },
+      orderBy: { date: "desc" }
+    });
+  }
+
+  if (user.role === "ADMIN") {
+    return await prisma.event.findMany({
+      where: { date: { lt: now } },
+      orderBy: { date: "desc" }
+    });
+  }
+}
+
+
+
+
 
 export const EventService = {
   createEvent,
   getAllEvents,
   getMyEvents,
-  getMyReview
+  getMyReview,
+  updateEvent,
+  getUpcomingEvents,
+  getEventHistory
 };

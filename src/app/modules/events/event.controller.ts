@@ -66,12 +66,58 @@ const getMyReview = catchAsync(async(req:Request & JwtPayload,res:Response, next
 })
 
 
+const updateEvent = catchAsync(async(req:Request & JwtPayload,res:Response, next:NextFunction)=>{
+   
+    const userInfo = req.user; // From JWT
+    const userPayload = req.body;
+    const eventId = req.params.id
+    
+    // const hostId = req.user.id; // From JWT
+    const result = await EventService.updateEvent(eventId,userInfo,userPayload);
 
+    sendResponse(res, {
+      statusCode: 201,
+      success: true,
+      message: "Event has been updated successfully",
+      data: result,
+    });
+})
+
+
+const getUpcomingEvents = catchAsync(async (req:Request & JwtPayload, res:Response, next:NextFunction) => {
+  const user = req.user;
+
+  const data = await EventService.getUpcomingEvents(user);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Upcoming events fetched successfully",
+    data:data,
+  });
+});
+
+const getEventHistory = catchAsync(async (req:Request & JwtPayload, res:Response, next:NextFunction) => {
+  const user = req.user;
+
+  const data = await EventService.getEventHistory(user);
+  console.log("hisorydata:", data)
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Past events fetched successfully",
+    data: data,
+  });
+});
 
 
 export const EventController = {
     createEvent,
     allEvent,
     myEvents,
-    getMyReview
+    getMyReview,
+    updateEvent,
+    getUpcomingEvents,
+    getEventHistory
 }
