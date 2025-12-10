@@ -132,10 +132,51 @@ const updateEvent = async (eventId: string, userInfo: IVerifiedUser, updateInfo:
 };
 
 
+const paymentOverview = async (hostId: string) => {
+  const totalEarnings = await prisma.payment.aggregate({
+    where: {
+      event: {
+        host:{id:hostId}
+      },
+      status: "PAID",
+    },
+    _sum: { amount: true },
+  });
+
+  const pending = await prisma.payment.aggregate({
+    where: {
+      event: {
+        host:{id:hostId}
+      },
+      status: "PENDING",
+    },
+    _sum: { amount: true },
+  });
+
+  const monthly = await prisma.payment.groupBy({
+    by: ["createAt"], 
+    where: {
+       event: {
+        host:{id:hostId}
+      },
+      status: "PAID",
+    },
+    _sum: { amount: true },
+  });
+
+  return {
+    totalEarnings: totalEarnings._sum.amount || 0,
+    pending: pending._sum.amount || 0,
+    monthlyEarnings: monthly,
+  };
+};
+
+
 
 
 export const HostService = {
     getEventAnalytics,
     createEvent,
-    updateEvent
+    updateEvent,
+    paymentOverview
 }

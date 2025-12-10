@@ -16,16 +16,21 @@ router.post(
   HostController.createEvent
 );
 
-//host analytics api for dashboard
-router.get("/analytics", authCookies("HOST"), HostController.getEventAnalytics);
-
-
 // update_event(host)
 router.get(
   "/edit/:id",
   authCookies(Role.HOST),
  HostController.updateEvent
 );
+
+//host analytics api for dashboard
+router.get("/analytics", authCookies("HOST"), HostController.getEventAnalytics);
+
+//payment overview
+router.get("/payment-overview", authCookies("HOST"), HostController.paymentOverview);
+
+
+
 
 
 

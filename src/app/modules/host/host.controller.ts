@@ -52,8 +52,25 @@ const updateEvent = catchAsync(async(req:Request & JwtPayload,res:Response, next
 })
 
 
+const paymentOverview = catchAsync(async(req:Request & JwtPayload,res:Response, next:NextFunction)=>{
+   
+    const hostId = req.user.id; 
+    
+    // const hostId = req.user.id; // From JWT
+    const result = await HostService.paymentOverview(hostId);
+
+    sendResponse(res, {
+      statusCode: 201,
+      success: true,
+      message: "Host payment overview retrieve successfully",
+      data: result,
+    });
+})
+
+
 export const HostController = {
     getEventAnalytics,
     createEvent,
-    updateEvent
+    updateEvent,
+    paymentOverview
 }
