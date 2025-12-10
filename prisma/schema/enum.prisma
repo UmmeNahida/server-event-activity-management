@@ -9,7 +9,8 @@ enum UserStatus {
   ACTIVE
   INACTIVE
   BLOCKED
-  PENDING
+  REQUESTED
+  SUSPENDED
 }
 enum PaymentStatus {
   PAID 

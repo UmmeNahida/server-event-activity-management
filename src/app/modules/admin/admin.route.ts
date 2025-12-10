@@ -8,21 +8,23 @@ const router = Router()
 // Only Admin
 router.use(authCookies(Role.ADMIN));
 
+router.get("/analytics",authCookies(Role.ADMIN), AdminController.analytics)
+
 // EVENT MANAGEMENT
-router.get("/all-events", AdminController.getAllEvents)
+router.get("/all-events",authCookies(Role.ADMIN), AdminController.getAllEvents)
 
 // USER MANAGEMENT
-router.get("/users", AdminController.getAllUsers);
-router.get("/users/:id", AdminController.getUserById);
-router.patch("/users/status/:id", AdminController.updateUserStatus);
-router.delete("/users/:id", AdminController.deleteUser);
-router.patch("/users/promote/:id", AdminController.promoteToHost);
-router.patch("/users/demote/:id", AdminController.demoteToUser);
+router.get("/users",authCookies(Role.ADMIN), AdminController.getAllUsers);
+router.get("/users/:id",authCookies(Role.ADMIN), AdminController.getUserById);
+router.patch("/users/status/:id",authCookies(Role.ADMIN), AdminController.updateUserStatus);
+router.delete("/users/:id",authCookies(Role.ADMIN), AdminController.deleteUser);
+router.patch("/users/promote/:id",authCookies(Role.ADMIN), AdminController.promoteToHost);
+router.patch("/users/demote/:id",authCookies(Role.ADMIN), AdminController.demoteToUser);
 
 // HOST MANAGEMENT
-router.get("/hosts", AdminController.getAllHosts);
-router.get("/hosts/:id", AdminController.getHostById);
-router.patch("/hosts/status/:id", AdminController.updateHostStatus);
-router.delete("/hosts/:id", AdminController.deleteHost);
+router.get("/hosts",authCookies(Role.ADMIN), AdminController.getAllHosts);
+router.get("/hosts/:id",authCookies(Role.ADMIN), AdminController.getHostById);
+router.patch("/hosts/status/:id",authCookies(Role.ADMIN), AdminController.updateHostStatus);
+router.delete("/hosts/:id",authCookies(Role.ADMIN), AdminController.deleteHost);
 
 export const AdminRoute = router;

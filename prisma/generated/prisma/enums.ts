@@ -23,7 +23,8 @@ export const UserStatus = {
   ACTIVE: 'ACTIVE',
   INACTIVE: 'INACTIVE',
   BLOCKED: 'BLOCKED',
-  PENDING: 'PENDING'
+  REQUESTED: 'REQUESTED',
+  SUSPENDED: 'SUSPENDED'
 } as const
 
 export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus]
@@ -54,3 +55,12 @@ export const ReviewStatus = {
 } as const
 
 export type ReviewStatus = (typeof ReviewStatus)[keyof typeof ReviewStatus]
+
+
+export const ReportStatus = {
+  PENDING: 'PENDING',
+  REVIEWED: 'REVIEWED',
+  ACTION_TAKEN: 'ACTION_TAKEN'
+} as const
+
+export type ReportStatus = (typeof ReportStatus)[keyof typeof ReportStatus]

@@ -6,6 +6,7 @@ import { ParticipantRoutes } from "../modules/participant/participant.route";
 import { AdminRoute } from "../modules/admin/admin.route";
 import { CommonRoute } from "../modules/common/common.route";
 import { HostRoute } from "../modules/host/host.route";
+import { AdminReportRoutes } from "../modules/AdminReport/adminReport.route";
 
 
 export const router = Router();
@@ -30,6 +31,10 @@ const moduleRoutes = [
     {
         path:"/admin",
         route: AdminRoute
+    },
+    {
+        path:"/admin",
+        route: AdminReportRoutes
     },
     {
         path:"/host",

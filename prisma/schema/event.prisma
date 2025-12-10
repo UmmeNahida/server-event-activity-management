@@ -21,6 +21,7 @@ model Event {
   payments      Payment[]
   participants  EventParticipant[]
   reviews       Review[]
+  report        Report[]
 }
 
 

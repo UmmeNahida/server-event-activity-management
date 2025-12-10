@@ -312,6 +312,7 @@ export type EventWhereInput = {
   payments?: Prisma.PaymentListRelationFilter
   participants?: Prisma.EventParticipantListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
+  report?: Prisma.ReportListRelationFilter
 }
 
 export type EventOrderByWithRelationInput = {
@@ -334,6 +335,7 @@ export type EventOrderByWithRelationInput = {
   payments?: Prisma.PaymentOrderByRelationAggregateInput
   participants?: Prisma.EventParticipantOrderByRelationAggregateInput
   reviews?: Prisma.ReviewOrderByRelationAggregateInput
+  report?: Prisma.ReportOrderByRelationAggregateInput
 }
 
 export type EventWhereUniqueInput = Prisma.AtLeast<{
@@ -359,6 +361,7 @@ export type EventWhereUniqueInput = Prisma.AtLeast<{
   payments?: Prisma.PaymentListRelationFilter
   participants?: Prisma.EventParticipantListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
+  report?: Prisma.ReportListRelationFilter
 }, "id">
 
 export type EventOrderByWithAggregationInput = {
@@ -424,6 +427,7 @@ export type EventCreateInput = {
   payments?: Prisma.PaymentCreateNestedManyWithoutEventInput
   participants?: Prisma.EventParticipantCreateNestedManyWithoutEventInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutEventInput
+  report?: Prisma.ReportCreateNestedManyWithoutTargetEventInput
 }
 
 export type EventUncheckedCreateInput = {
@@ -445,6 +449,7 @@ export type EventUncheckedCreateInput = {
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutEventInput
   participants?: Prisma.EventParticipantUncheckedCreateNestedManyWithoutEventInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutEventInput
+  report?: Prisma.ReportUncheckedCreateNestedManyWithoutTargetEventInput
 }
 
 export type EventUpdateInput = {
@@ -466,6 +471,7 @@ export type EventUpdateInput = {
   payments?: Prisma.PaymentUpdateManyWithoutEventNestedInput
   participants?: Prisma.EventParticipantUpdateManyWithoutEventNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutEventNestedInput
+  report?: Prisma.ReportUpdateManyWithoutTargetEventNestedInput
 }
 
 export type EventUncheckedUpdateInput = {
@@ -487,6 +493,7 @@ export type EventUncheckedUpdateInput = {
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutEventNestedInput
   participants?: Prisma.EventParticipantUncheckedUpdateManyWithoutEventNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutEventNestedInput
+  report?: Prisma.ReportUncheckedUpdateManyWithoutTargetEventNestedInput
 }
 
 export type EventCreateManyInput = {
@@ -625,6 +632,11 @@ export type EventOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type EventNullableScalarRelationFilter = {
+  is?: Prisma.EventWhereInput | null
+  isNot?: Prisma.EventWhereInput | null
+}
+
 export type StringFieldUpdateOperationsInput = {
   set?: string
 }
@@ -741,6 +753,22 @@ export type EventUncheckedUpdateManyWithoutHostNestedInput = {
   deleteMany?: Prisma.EventScalarWhereInput | Prisma.EventScalarWhereInput[]
 }
 
+export type EventCreateNestedOneWithoutReportInput = {
+  create?: Prisma.XOR<Prisma.EventCreateWithoutReportInput, Prisma.EventUncheckedCreateWithoutReportInput>
+  connectOrCreate?: Prisma.EventCreateOrConnectWithoutReportInput
+  connect?: Prisma.EventWhereUniqueInput
+}
+
+export type EventUpdateOneWithoutReportNestedInput = {
+  create?: Prisma.XOR<Prisma.EventCreateWithoutReportInput, Prisma.EventUncheckedCreateWithoutReportInput>
+  connectOrCreate?: Prisma.EventCreateOrConnectWithoutReportInput
+  upsert?: Prisma.EventUpsertWithoutReportInput
+  disconnect?: Prisma.EventWhereInput | boolean
+  delete?: Prisma.EventWhereInput | boolean
+  connect?: Prisma.EventWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.EventUpdateToOneWithWhereWithoutReportInput, Prisma.EventUpdateWithoutReportInput>, Prisma.EventUncheckedUpdateWithoutReportInput>
+}
+
 export type EventCreateWithoutParticipantsInput = {
   id?: string
   name: string
@@ -759,6 +787,7 @@ export type EventCreateWithoutParticipantsInput = {
   host: Prisma.UserCreateNestedOneWithoutEventsHostedInput
   payments?: Prisma.PaymentCreateNestedManyWithoutEventInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutEventInput
+  report?: Prisma.ReportCreateNestedManyWithoutTargetEventInput
 }
 
 export type EventUncheckedCreateWithoutParticipantsInput = {
@@ -779,6 +808,7 @@ export type EventUncheckedCreateWithoutParticipantsInput = {
   hostId: string
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutEventInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutEventInput
+  report?: Prisma.ReportUncheckedCreateNestedManyWithoutTargetEventInput
 }
 
 export type EventCreateOrConnectWithoutParticipantsInput = {
@@ -815,6 +845,7 @@ export type EventUpdateWithoutParticipantsInput = {
   host?: Prisma.UserUpdateOneRequiredWithoutEventsHostedNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutEventNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutEventNestedInput
+  report?: Prisma.ReportUpdateManyWithoutTargetEventNestedInput
 }
 
 export type EventUncheckedUpdateWithoutParticipantsInput = {
@@ -835,6 +866,7 @@ export type EventUncheckedUpdateWithoutParticipantsInput = {
   hostId?: Prisma.StringFieldUpdateOperationsInput | string
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutEventNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutEventNestedInput
+  report?: Prisma.ReportUncheckedUpdateManyWithoutTargetEventNestedInput
 }
 
 export type EventCreateWithoutPaymentsInput = {
@@ -855,6 +887,7 @@ export type EventCreateWithoutPaymentsInput = {
   host: Prisma.UserCreateNestedOneWithoutEventsHostedInput
   participants?: Prisma.EventParticipantCreateNestedManyWithoutEventInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutEventInput
+  report?: Prisma.ReportCreateNestedManyWithoutTargetEventInput
 }
 
 export type EventUncheckedCreateWithoutPaymentsInput = {
@@ -875,6 +908,7 @@ export type EventUncheckedCreateWithoutPaymentsInput = {
   hostId: string
   participants?: Prisma.EventParticipantUncheckedCreateNestedManyWithoutEventInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutEventInput
+  report?: Prisma.ReportUncheckedCreateNestedManyWithoutTargetEventInput
 }
 
 export type EventCreateOrConnectWithoutPaymentsInput = {
@@ -911,6 +945,7 @@ export type EventUpdateWithoutPaymentsInput = {
   host?: Prisma.UserUpdateOneRequiredWithoutEventsHostedNestedInput
   participants?: Prisma.EventParticipantUpdateManyWithoutEventNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutEventNestedInput
+  report?: Prisma.ReportUpdateManyWithoutTargetEventNestedInput
 }
 
 export type EventUncheckedUpdateWithoutPaymentsInput = {
@@ -931,6 +966,7 @@ export type EventUncheckedUpdateWithoutPaymentsInput = {
   hostId?: Prisma.StringFieldUpdateOperationsInput | string
   participants?: Prisma.EventParticipantUncheckedUpdateManyWithoutEventNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutEventNestedInput
+  report?: Prisma.ReportUncheckedUpdateManyWithoutTargetEventNestedInput
 }
 
 export type EventCreateWithoutReviewsInput = {
@@ -951,6 +987,7 @@ export type EventCreateWithoutReviewsInput = {
   host: Prisma.UserCreateNestedOneWithoutEventsHostedInput
   payments?: Prisma.PaymentCreateNestedManyWithoutEventInput
   participants?: Prisma.EventParticipantCreateNestedManyWithoutEventInput
+  report?: Prisma.ReportCreateNestedManyWithoutTargetEventInput
 }
 
 export type EventUncheckedCreateWithoutReviewsInput = {
@@ -971,6 +1008,7 @@ export type EventUncheckedCreateWithoutReviewsInput = {
   hostId: string
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutEventInput
   participants?: Prisma.EventParticipantUncheckedCreateNestedManyWithoutEventInput
+  report?: Prisma.ReportUncheckedCreateNestedManyWithoutTargetEventInput
 }
 
 export type EventCreateOrConnectWithoutReviewsInput = {
@@ -1007,6 +1045,7 @@ export type EventUpdateWithoutReviewsInput = {
   host?: Prisma.UserUpdateOneRequiredWithoutEventsHostedNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutEventNestedInput
   participants?: Prisma.EventParticipantUpdateManyWithoutEventNestedInput
+  report?: Prisma.ReportUpdateManyWithoutTargetEventNestedInput
 }
 
 export type EventUncheckedUpdateWithoutReviewsInput = {
@@ -1027,6 +1066,7 @@ export type EventUncheckedUpdateWithoutReviewsInput = {
   hostId?: Prisma.StringFieldUpdateOperationsInput | string
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutEventNestedInput
   participants?: Prisma.EventParticipantUncheckedUpdateManyWithoutEventNestedInput
+  report?: Prisma.ReportUncheckedUpdateManyWithoutTargetEventNestedInput
 }
 
 export type EventCreateWithoutHostInput = {
@@ -1047,6 +1087,7 @@ export type EventCreateWithoutHostInput = {
   payments?: Prisma.PaymentCreateNestedManyWithoutEventInput
   participants?: Prisma.EventParticipantCreateNestedManyWithoutEventInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutEventInput
+  report?: Prisma.ReportCreateNestedManyWithoutTargetEventInput
 }
 
 export type EventUncheckedCreateWithoutHostInput = {
@@ -1067,6 +1108,7 @@ export type EventUncheckedCreateWithoutHostInput = {
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutEventInput
   participants?: Prisma.EventParticipantUncheckedCreateNestedManyWithoutEventInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutEventInput
+  report?: Prisma.ReportUncheckedCreateNestedManyWithoutTargetEventInput
 }
 
 export type EventCreateOrConnectWithoutHostInput = {
@@ -1116,6 +1158,106 @@ export type EventScalarWhereInput = {
   hostId?: Prisma.StringFilter<"Event"> | string
 }
 
+export type EventCreateWithoutReportInput = {
+  id?: string
+  name: string
+  type: string
+  description?: string | null
+  location: string
+  image?: string | null
+  date: Date | string
+  time?: string | null
+  minParticipants: number
+  maxParticipants: number
+  participantCount?: number
+  fee?: number
+  status?: $Enums.EventStatus
+  createdAt?: Date | string
+  host: Prisma.UserCreateNestedOneWithoutEventsHostedInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutEventInput
+  participants?: Prisma.EventParticipantCreateNestedManyWithoutEventInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutEventInput
+}
+
+export type EventUncheckedCreateWithoutReportInput = {
+  id?: string
+  name: string
+  type: string
+  description?: string | null
+  location: string
+  image?: string | null
+  date: Date | string
+  time?: string | null
+  minParticipants: number
+  maxParticipants: number
+  participantCount?: number
+  fee?: number
+  status?: $Enums.EventStatus
+  createdAt?: Date | string
+  hostId: string
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutEventInput
+  participants?: Prisma.EventParticipantUncheckedCreateNestedManyWithoutEventInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutEventInput
+}
+
+export type EventCreateOrConnectWithoutReportInput = {
+  where: Prisma.EventWhereUniqueInput
+  create: Prisma.XOR<Prisma.EventCreateWithoutReportInput, Prisma.EventUncheckedCreateWithoutReportInput>
+}
+
+export type EventUpsertWithoutReportInput = {
+  update: Prisma.XOR<Prisma.EventUpdateWithoutReportInput, Prisma.EventUncheckedUpdateWithoutReportInput>
+  create: Prisma.XOR<Prisma.EventCreateWithoutReportInput, Prisma.EventUncheckedCreateWithoutReportInput>
+  where?: Prisma.EventWhereInput
+}
+
+export type EventUpdateToOneWithWhereWithoutReportInput = {
+  where?: Prisma.EventWhereInput
+  data: Prisma.XOR<Prisma.EventUpdateWithoutReportInput, Prisma.EventUncheckedUpdateWithoutReportInput>
+}
+
+export type EventUpdateWithoutReportInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  minParticipants?: Prisma.IntFieldUpdateOperationsInput | number
+  maxParticipants?: Prisma.IntFieldUpdateOperationsInput | number
+  participantCount?: Prisma.IntFieldUpdateOperationsInput | number
+  fee?: Prisma.FloatFieldUpdateOperationsInput | number
+  status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  host?: Prisma.UserUpdateOneRequiredWithoutEventsHostedNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutEventNestedInput
+  participants?: Prisma.EventParticipantUpdateManyWithoutEventNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutEventNestedInput
+}
+
+export type EventUncheckedUpdateWithoutReportInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  minParticipants?: Prisma.IntFieldUpdateOperationsInput | number
+  maxParticipants?: Prisma.IntFieldUpdateOperationsInput | number
+  participantCount?: Prisma.IntFieldUpdateOperationsInput | number
+  fee?: Prisma.FloatFieldUpdateOperationsInput | number
+  status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  hostId?: Prisma.StringFieldUpdateOperationsInput | string
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutEventNestedInput
+  participants?: Prisma.EventParticipantUncheckedUpdateManyWithoutEventNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutEventNestedInput
+}
+
 export type EventCreateManyHostInput = {
   id?: string
   name: string
@@ -1151,6 +1293,7 @@ export type EventUpdateWithoutHostInput = {
   payments?: Prisma.PaymentUpdateManyWithoutEventNestedInput
   participants?: Prisma.EventParticipantUpdateManyWithoutEventNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutEventNestedInput
+  report?: Prisma.ReportUpdateManyWithoutTargetEventNestedInput
 }
 
 export type EventUncheckedUpdateWithoutHostInput = {
@@ -1171,6 +1314,7 @@ export type EventUncheckedUpdateWithoutHostInput = {
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutEventNestedInput
   participants?: Prisma.EventParticipantUncheckedUpdateManyWithoutEventNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutEventNestedInput
+  report?: Prisma.ReportUncheckedUpdateManyWithoutTargetEventNestedInput
 }
 
 export type EventUncheckedUpdateManyWithoutHostInput = {
@@ -1199,12 +1343,14 @@ export type EventCountOutputType = {
   payments: number
   participants: number
   reviews: number
+  report: number
 }
 
 export type EventCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   payments?: boolean | EventCountOutputTypeCountPaymentsArgs
   participants?: boolean | EventCountOutputTypeCountParticipantsArgs
   reviews?: boolean | EventCountOutputTypeCountReviewsArgs
+  report?: boolean | EventCountOutputTypeCountReportArgs
 }
 
 /**
@@ -1238,6 +1384,13 @@ export type EventCountOutputTypeCountReviewsArgs<ExtArgs extends runtime.Types.E
   where?: Prisma.ReviewWhereInput
 }
 
+/**
+ * EventCountOutputType without action
+ */
+export type EventCountOutputTypeCountReportArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReportWhereInput
+}
+
 
 export type EventSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1259,6 +1412,7 @@ export type EventSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   payments?: boolean | Prisma.Event$paymentsArgs<ExtArgs>
   participants?: boolean | Prisma.Event$participantsArgs<ExtArgs>
   reviews?: boolean | Prisma.Event$reviewsArgs<ExtArgs>
+  report?: boolean | Prisma.Event$reportArgs<ExtArgs>
   _count?: boolean | Prisma.EventCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["event"]>
 
@@ -1324,6 +1478,7 @@ export type EventInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   payments?: boolean | Prisma.Event$paymentsArgs<ExtArgs>
   participants?: boolean | Prisma.Event$participantsArgs<ExtArgs>
   reviews?: boolean | Prisma.Event$reviewsArgs<ExtArgs>
+  report?: boolean | Prisma.Event$reportArgs<ExtArgs>
   _count?: boolean | Prisma.EventCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type EventIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1340,6 +1495,7 @@ export type $EventPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     payments: Prisma.$PaymentPayload<ExtArgs>[]
     participants: Prisma.$EventParticipantPayload<ExtArgs>[]
     reviews: Prisma.$ReviewPayload<ExtArgs>[]
+    report: Prisma.$ReportPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1755,6 +1911,7 @@ export interface Prisma__EventClient<T, Null = never, ExtArgs extends runtime.Ty
   payments<T extends Prisma.Event$paymentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Event$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   participants<T extends Prisma.Event$participantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Event$participantsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EventParticipantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reviews<T extends Prisma.Event$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Event$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  report<T extends Prisma.Event$reportArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Event$reportArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2264,6 +2421,30 @@ export type Event$reviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.ReviewScalarFieldEnum | Prisma.ReviewScalarFieldEnum[]
+}
+
+/**
+ * Event.report
+ */
+export type Event$reportArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Report
+   */
+  select?: Prisma.ReportSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Report
+   */
+  omit?: Prisma.ReportOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ReportInclude<ExtArgs> | null
+  where?: Prisma.ReportWhereInput
+  orderBy?: Prisma.ReportOrderByWithRelationInput | Prisma.ReportOrderByWithRelationInput[]
+  cursor?: Prisma.ReportWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ReportScalarFieldEnum | Prisma.ReportScalarFieldEnum[]
 }
 
 /**

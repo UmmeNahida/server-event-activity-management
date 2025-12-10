@@ -18,6 +18,28 @@ model User {
   eventsHosted     Event[]           @relation("hostedEvents")
   reviewsGiven     Review[]          @relation("reviewsByUser")
   reviewsReceived  Review[]          @relation("reviewsForHost")
+  reportsSubmitted Report[]          @relation("reporter")
+  reportsReceived  Report[]          @relation("reportedUser")
 
   createdAt   DateTime @default(now())
+}
+
+model Report {
+  id        String   @id @default(uuid())
+  reporterId String
+  targetUserId String?
+  targetEventId String?
+  reason     String
+  status     ReportStatus @default(PENDING)
+  createdAt  DateTime     @default(now())
+
+  reporter   User   @relation("reporter", fields: [reporterId], references: [id])
+  targetUser User?  @relation("reportedUser", fields: [targetUserId], references: [id])
+  targetEvent Event? @relation(fields: [targetEventId], references: [id])
+}
+
+enum ReportStatus {
+  PENDING
+  REVIEWED
+  ACTION_TAKEN
 }

@@ -26,6 +26,31 @@ interface EventFilter {
 
 
 export const AdminService = {
+
+// ADMIN ANALYTICS 
+analytics: async () => {
+    const totalUsers = await prisma.user.count();
+    const totalHosts = await prisma.user.count({ where: { role: "HOST" } });
+    const totalEvents = await prisma.event.count();
+    const activeEvents = await prisma.event.count({ where: { status: "OPEN" } });
+    const completedEvents = await prisma.event.count({ where: { status: "COMPLETED" } });
+    const totalReports = await prisma.report.count({ where: { status: "PENDING" } });
+
+    const monthlyRegistrations = await prisma.user.groupBy({
+      by: ["createdAt"],
+      _count: { id: true },
+    });
+
+    return {
+      totalUsers,
+      totalHosts,
+      totalEvents,
+      activeEvents,
+      completedEvents,
+      totalReports,
+      monthlyRegistrations,
+    };
+  },
   
 // ====================
 // EVENT MANAGEMENT
@@ -166,6 +191,25 @@ export const AdminService = {
     return prisma.user.update({
       where: { id },
       data: { isDeleted: true, userStatus: "INACTIVE" },
+    });
+  },
+
+  approveHost: async (id: string) => {
+    return prisma.user.update({
+      where: { id },
+      data: {
+        role: "HOST",
+        userStatus: "ACTIVE",
+      },
+    });
+  },
+  rejectHost: async (id: string) => {
+    return prisma.user.update({
+      where: { id },
+      data: {
+        role: "USER",
+        userStatus: "INACTIVE",
+      },
     });
   },
 };

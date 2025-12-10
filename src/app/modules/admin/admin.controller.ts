@@ -4,6 +4,18 @@ import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
 import { AdminService } from "./admin.service";
 
+const analytics = catchAsync(async(req:Request,res:Response, next:NextFunction)=>{
+ 
+     const result = await AdminService.analytics();
+   
+        sendResponse(res,{
+            success: true,
+            statusCode: httpStatus.CREATED,
+            message: "Admin analytics data retrieve successfully",
+            data: result
+        })
+})
+
 const getAllEvents = catchAsync(async(req:Request,res:Response, next:NextFunction)=>{
      
     const filter = req.query;
@@ -121,6 +133,7 @@ const  getAllHosts = catchAsync(async (req, res) => {
 
 
 export const AdminController = {
+  analytics,
   getAllEvents,
   getAllHosts,
   getAllUsers,
