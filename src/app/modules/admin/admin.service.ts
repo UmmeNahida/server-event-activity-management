@@ -1,3 +1,4 @@
+import { UserStatus } from "../../../../prisma/generated/prisma/enums";
 import { prisma } from "../../../lib/prisma";
 
 
@@ -23,7 +24,14 @@ interface EventFilter {
 //     // Add other event fields as needed
 // }
 
-const getAllEvents = async (filters: EventFilter) => {
+
+export const AdminService = {
+  
+// ====================
+// EVENT MANAGEMENT
+// ===================
+
+  getAllEvents: async (filters: EventFilter) => {
     const { type, date, location } = filters;
 
     const events = await prisma.event.findMany({
@@ -49,8 +57,116 @@ const getAllEvents = async (filters: EventFilter) => {
     });
 
     return events
-}
+},
 
-export const AdminService = {
-    getAllEvents
-}
+  // ======================
+  // USER MANAGEMENT
+  // ======================
+  getAllUsers: async (query: any) => {
+    const { search, location, page = 1, limit = 10 } = query;
+
+    const where: any = {
+      role: "USER",
+    };
+
+    if (location) where.location = { contains: location, mode: "insensitive" };
+
+    if (search) {
+      where.OR = [
+        { name: { contains: search, mode: "insensitive" } },
+        { email: { contains: search, mode: "insensitive" } },
+        { location: { contains: search, mode: "insensitive" } },
+      ];
+    }
+
+    const skip = (Number(page) - 1) * Number(limit);
+
+    const users = await prisma.user.findMany({
+      where,
+      skip,
+      take: Number(limit),
+      orderBy: { createdAt: "desc" },
+    });
+
+    return users;
+  },
+
+  getUserById: async (id: string) => {
+    return prisma.user.findUnique({ where: { id } });
+  },
+
+  updateUserStatus: async (id: string, status: UserStatus) => {
+    return prisma.user.update({
+      where: { id },
+      data: { userStatus:status },
+    });
+  },
+
+  deleteUser: async (id: string) => {
+    return prisma.user.update({
+      where: { id },
+      data: { isDeleted: true, userStatus: "INACTIVE" },
+    });
+  },
+
+  promoteToHost: async (id: string) => {
+    return prisma.user.update({
+      where: { id },
+      data: { role: "HOST" },
+    });
+  },
+
+  demoteToUser: async (id: string) => {
+    return prisma.user.update({
+      where: { id },
+      data: { role: "USER" },
+    });
+  },
+
+  // ======================
+  // HOST MANAGEMENT
+  // ======================
+  getAllHosts: async (query: any) => {
+    const { search, userStatus, location, page = 1, limit = 10 } = query;
+
+    const where: any = { role: "HOST" };
+
+    if (userStatus) where.status = userStatus;
+    if (location) where.location = { contains: location, mode: "insensitive" };
+
+    if (search) {
+      where.OR = [
+        { name: { contains: search, mode: "insensitive" } },
+        { email: { contains: search, mode: "insensitive" } },
+      ];
+    }
+
+    const skip = (Number(page) - 1) * Number(limit);
+
+    return prisma.user.findMany({
+      where,
+      skip,
+      take: Number(limit),
+      orderBy: { createdAt: "desc" },
+    });
+  },
+
+  getHostById: async (id: string) => {
+    return prisma.user.findUnique({ where: { id } });
+  },
+
+  updateHostStatus: async (id: string, status: UserStatus) => {
+    return prisma.user.update({
+      where: { id },
+      data: { userStatus:status },
+    });
+  },
+
+  deleteHost: async (id: string) => {
+    return prisma.user.update({
+      where: { id },
+      data: { isDeleted: true, userStatus: "INACTIVE" },
+    });
+  },
+};
+

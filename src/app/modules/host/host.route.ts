@@ -16,6 +16,10 @@ router.post(
   HostController.createEvent
 );
 
+//host analytics api for dashboard
+router.get("/analytics", authCookies("HOST"), HostController.getEventAnalytics);
+
+
 // update_event(host)
 router.get(
   "/edit/:id",

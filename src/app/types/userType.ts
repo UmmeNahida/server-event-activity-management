@@ -16,6 +16,7 @@ export interface IReview {
 }
 
 export type UserRole = 'ADMIN' | 'HOST' | 'USER';
+export type UserStatus = 'OPEN' | 'CLOSED' | 'CANCELLED' | 'COMPLETED';
 
 export interface IVerifiedUser {
   id: string;

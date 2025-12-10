@@ -887,6 +887,7 @@ export const UserScalarFieldEnum = {
   interests: 'interests',
   hobbies: 'hobbies',
   location: 'location',
+  isDeleted: 'isDeleted',
   role: 'role',
   userStatus: 'userStatus',
   createdAt: 'createdAt'

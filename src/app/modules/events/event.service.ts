@@ -265,6 +265,8 @@ const singleEvent = async (id: string): Promise<Partial<Event> | null> => {
 };
 
 
+
+
 export const EventService = { 
   getAllEvents,
   getMyEvents,

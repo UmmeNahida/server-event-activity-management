@@ -194,6 +194,43 @@ const getPopularEvents=()=> {
 }
 
 
+// nearby data
+// const getNearbyEvents =async ({ lat, lng, radius })=> {
+//   const events = await prisma.event.findMany({
+//     where: {
+//       status: "OPEN"
+//     },
+//     include: {
+//       host: true
+//     }
+//   });
+
+//   const EARTH_RADIUS = 6371; // KM
+
+//   const filtered = events.filter(event => {
+//     if (!event.latitude || !event.longitude) return false;
+
+//     const dLat = (event.latitude - lat) * Math.PI / 180;
+//     const dLng = (event.longitude - lng) * Math.PI / 180;
+
+//     const a =
+//       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+//       Math.cos(lat * Math.PI / 180) *
+//       Math.cos(event.latitude * Math.PI / 180) *
+//       Math.sin(dLng / 2) * Math.sin(dLng / 2);
+
+//     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+//     const distance = EARTH_RADIUS * c;
+
+//     return distance <= radius;
+//   });
+
+//   return filtered;
+// }
+
+
+
 export const CommonService = {
     getAllEvents,
     getTopRatedEvents,
