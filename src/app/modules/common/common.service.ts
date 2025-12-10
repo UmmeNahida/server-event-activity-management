@@ -175,8 +175,27 @@ const getTopRatedEvents = async () => {
   });
 }
 
+// popular events
+const getPopularEvents=()=> {
+  return prisma.event.findMany({
+    where: {
+      date: { gt: new Date() }
+    },
+    include: {
+      participants: true,
+      host: true
+    },
+    orderBy: [
+      {participantCount: "desc" },
+      { date: "asc" }
+    ],
+    take: 10
+  });
+}
+
 
 export const CommonService = {
     getAllEvents,
-    getTopRatedEvents
+    getTopRatedEvents,
+    getPopularEvents
 }
