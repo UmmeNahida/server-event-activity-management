@@ -7,6 +7,7 @@ import { AdminRoute } from "../modules/admin/admin.route";
 import { CommonRoute } from "../modules/common/common.route";
 import { HostRoute } from "../modules/host/host.route";
 import { AdminReportRoutes } from "../modules/AdminReport/adminReport.route";
+import { SavedEventRoutes } from "../modules/savedEvents/savedEvents.route";
 
 
 export const router = Router();
@@ -43,6 +44,10 @@ const moduleRoutes = [
     {
         path:"/common",
         route: CommonRoute
+    },
+    {
+        path:"/saved-events",
+        route: SavedEventRoutes
     },
 
 ]

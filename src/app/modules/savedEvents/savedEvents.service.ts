@@ -30,7 +30,21 @@ export const SavedEventService = {
         event: {
           include: {
             host: true,
-            participants: true,
+            participants: {
+                include:{
+                    user:{select:{
+                        id:true,
+                        name:true,
+                        email:true,
+                        bio:true,
+                        interests:true,
+                        hobbies:true,
+                        role:true,
+                        image:true,
+                        location:true
+                    }}
+                }
+            },
           },
         },
       },
