@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
-    "rootDir": "./src",
+    // "rootDir": ".",
     "outDir": "./dist",
 
     "module": "esnext",
     "moduleResolution": "node",
     // "moduleResolution": "bundler",
-    "target": "es2020",
+    "target": "es2023",
 
-    "types": ["node"],
+    "types": [],
 
     "strict": true,
     "skipLibCheck": true,

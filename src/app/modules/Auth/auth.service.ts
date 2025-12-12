@@ -2,8 +2,8 @@ import bcrypt from "bcrypt";
 import { prisma } from "../../../lib/prisma";
 import { generateToken } from "../../helper/jwtToken";
 import { envVars } from "../../config/env";
-import { Prisma } from "../../../../prisma/generated/prisma/client";
 import { fileUploader } from "../../helper/fileUploader";
+import { Prisma } from "../../../../prisma/generated/prisma/client";
 
 
 export const registerUser = async (userData:Partial<Prisma.UserCreateInput>,file:any) => {

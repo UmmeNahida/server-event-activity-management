@@ -1,8 +1,9 @@
-import { Prisma } from "../../../../prisma/generated/prisma/client";
+
 import { prisma } from "../../../lib/prisma";
 import AppError from "../../customizer/AppErrror";
 import httpStatus from "http-status-codes";
 import { IVerifiedUser } from "../../types/userType";
+import { Prisma } from "../../../../prisma/generated/prisma/client";
 
 const createEvent = async (hostId: string, payload: Prisma.EventCreateInput) => {
   console.log("payload_host:", payload);

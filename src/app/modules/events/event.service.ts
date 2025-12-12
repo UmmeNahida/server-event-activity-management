@@ -1,10 +1,8 @@
 import httpStatus from "http-status-codes";
 import { prisma } from "../../../lib/prisma";
 import AppError from "../../customizer/AppErrror";
-import { Prisma } from "../../../../prisma/generated/prisma/client";
 import { JwtPayload } from "jsonwebtoken";
 import { IVerifiedUser } from "../../types/userType";
-import { id } from "zod/v4/locales";
 import { IEventStatus } from "../../types/eventType";
 
 
