@@ -1,0 +1,53 @@
+
+model User {
+  id          String   @id @default(uuid())
+  name        String
+  email       String   @unique
+  password    String
+  bio         String?
+  image       String?
+  interests   String[]
+  hobbies   String[]
+  location    String?
+  isDeleted    Boolean @default(false)
+  isRequestedHost Boolean @default(false)
+  role        Role     @default(USER)
+  userStatus  UserStatus @default(ACTIVE)
+
+  payments         Payment[]
+  eventsJoined     EventParticipant[]
+  eventsHosted     Event[]           @relation("hostedEvents")
+  reviewsGiven     Review[]          @relation("reviewsByUser")
+  reviewsReceived  Review[]          @relation("reviewsForHost")
+  reportsSubmitted Report[]          @relation("reporter")
+  reportsReceived  Report[]          @relation("reportedUser")
+  savedEvents      SavedEvent[]
+
+  createdAt   DateTime @default(now())
+}
+
+model Report {
+  id        String   @id @default(uuid())
+  reporterId String
+  targetUserId String?
+  targetEventId String?
+  reason     String
+  status     ReportStatus @default(PENDING)
+  createdAt  DateTime     @default(now())
+
+  reporter   User   @relation("reporter", fields: [reporterId], references: [id])
+  targetUser User?  @relation("reportedUser", fields: [targetUserId], references: [id])
+  targetEvent Event? @relation(fields: [targetEventId], references: [id])
+}
+
+
+model SavedEvent {
+  id        String   @id @default(uuid())
+  userId    String
+  eventId   String
+  user      User     @relation(fields: [userId], references: [id])
+  event     Event    @relation(fields: [eventId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([userId, eventId]) // user ek event ekbar save korte parbe
+}

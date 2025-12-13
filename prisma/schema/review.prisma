@@ -1,0 +1,14 @@
+model Review {
+  id        String   @id @default(uuid())
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now())
+
+  reviewer       User  @relation("reviewsByUser", fields: [reviewerId], references: [id])
+  reviewerId     String
+  host           User  @relation("reviewsForHost", fields: [hostId], references: [id])
+  hostId         String
+
+  event          Event @relation(fields: [eventId], references: [id])
+  eventId        String
+}

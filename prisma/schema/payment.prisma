@@ -1,0 +1,18 @@
+model Payment {
+  id        String        @id @default(uuid())
+  amount    Float
+  status    PaymentStatus @default(UNPAID)
+  
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  event   Event  @relation(fields: [eventId], references: [id])
+  eventId String
+
+  transactionId      String   @unique
+  paymentGatewayData Json?
+  createAt           DateTime @default(now())
+  updateAt           DateTime @updatedAt
+
+  @@unique([userId, eventId])
+}
