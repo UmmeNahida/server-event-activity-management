@@ -13,7 +13,7 @@ async function connectToDB() {
         await prisma.$connect();
         console.log("DB connected")
     }catch(err:any){
-        console.log("DB connection Err:", err)
+        console.log("DB connection Err:",err)
     }
 }
 
@@ -21,8 +21,8 @@ async function startServer() {
     try {
         await connectToDB()
         server = http.createServer(app);
-        server.listen(process.env.port, () => {
-            console.log(`Example app listening on port ${process.env.port}`)
+        server.listen(process.env.PORT, () => {
+            console.log(`Example app listening on port ${process.env.PORT}`)
         })
 
          // Function to gracefully shut down the server
