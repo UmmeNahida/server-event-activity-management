@@ -32,9 +32,10 @@ const getMyProfile =  catchAsync(async (req: Request & IPayloadUser, res: Respon
 const updateMyProfile =  catchAsync(async (req: Request & IPayloadUser, res: Response, next:NextFunction) => {
     
     const userId = req.user!.id;
-    const updateInfo = req.body;
+    const updateInfo = JSON.parse(req.body.data)
+    const file = req.file
 
-    const data = await UserService.updateMyProfile(userId, updateInfo);
+    const data = await UserService.updateMyProfile(userId, updateInfo, file);
 
     sendResponse(res, {
       statusCode: 200,

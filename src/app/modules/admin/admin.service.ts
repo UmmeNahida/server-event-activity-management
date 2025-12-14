@@ -4,6 +4,7 @@ import {
   calcultatepagination,
   Ioptions,
 } from "../../helper/paginationHelper";
+import AppError from "@/app/customizer/AppErrror";
 
 interface EventFilter {
   type?: string;
@@ -221,11 +222,29 @@ export const AdminService = {
     });
   },
 
-  promoteToHost: async (id: string) => {
-    return prisma.user.update({
-      where: { id },
+  promoteToHost: async (email: string) => {
+    
+    const isExistHost = await prisma.user.findUnique({
+      where: { email, role:Role.HOST}
+    });
+
+    if(isExistHost){
+      throw new AppError(400,"you're already Host" )
+    }
+
+    const isRequestedToHost = await prisma.user.findUnique({
+      where: { email, userStatus:UserStatus.REQUESTED}
+    });
+
+    if(isRequestedToHost){
+      throw new AppError(400,"Please Waiting for admin approve" )
+    }
+
+    const user = await prisma.user.update({
+      where: { email },
       data: { userStatus: UserStatus.REQUESTED },
     });
+    return user;
   },
 
   demoteToUser: async (id: string) => {

@@ -3,11 +3,19 @@ import AppError from "../../customizer/AppErrror";
 import httpStatus from "http-status-codes";
 import { IVerifiedUser } from "../../types/userType";
 import { Prisma } from "@prisma/client";
+import { fileUploader } from "@/app/helper/fileUploader";
 
 const createEvent = async (
   hostId: string,
-  payload: Prisma.EventCreateInput
+  payload: Prisma.EventCreateInput,
+  file:any
 ) => {
+
+  // upload file to cloudinary
+    if (file) {
+      const uploads = await fileUploader.uploadToCloudinary(file);
+      payload.image = uploads!.secure_url as string;
+    }
   console.log("payload_host:", payload);
 
   // Host validation

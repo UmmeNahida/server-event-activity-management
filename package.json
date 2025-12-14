@@ -4,9 +4,9 @@
   "description": "",
   "type": "commonjs",
   "scripts": {
-    "build": " tsc --build && tsc-alias",
-    "dev": "NODE_ENV=development tsx --watch --require tsconfig-paths/register ./src/server.ts",
-    "start": "NODE_ENV=production node ./dist/server.js"
+    "build": "tsc --build && tsc-alias",
+    "dev": "tsx --watch --require tsconfig-paths/register ./src/server.ts",
+    "start": "node ./dist/server.js"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.1.0",

@@ -88,11 +88,11 @@ const getAllEvents = catchAsync(async(req:Request,res:Response, next:NextFunctio
   })
 
 const promoteToHost= catchAsync(async (req, res) => {
-    const result = await AdminService.promoteToHost(req.params.id);
+    const result = await AdminService.promoteToHost(req.params.email);
        sendResponse(res,{
             success: true,
             statusCode: httpStatus.OK,
-            message: "Promote to Host successfully",
+            message: "Host request is successfully sent",
             data: result
         });
   })

@@ -2,6 +2,7 @@ import { Router } from "express";
 import { EventController } from "./event.controller";
 import authCookies from "../../middleware/authCookies";
 import { Role } from "@prisma/client";
+// import { Role } from "@prisma/client";
 
 const router = Router();
 

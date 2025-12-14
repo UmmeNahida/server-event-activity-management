@@ -4,12 +4,14 @@ import { Role } from "@prisma/client";
 import { validationSchema } from "../../middleware/validationMiddleware";
 import { EventCreateSchema } from "../events/event.validation";
 import { HostController } from "./host.controller";
+import { fileUploader } from "@/app/helper/fileUploader";
 
 const router = Router();
 
 // create_event(host)
 router.post(
-  "/",
+  "/create-event",
+  fileUploader.upload.single('file'),
   authCookies(Role.HOST),
   validationSchema(EventCreateSchema),
   HostController.createEvent

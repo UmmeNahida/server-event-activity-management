@@ -1,4 +1,5 @@
 
+import { fileUploader } from "@/app/helper/fileUploader";
 import { prisma } from "../../../lib/prisma";
 import AppError from "../../customizer/AppErrror";
 
@@ -55,7 +56,7 @@ import AppError from "../../customizer/AppErrror";
 
 
   // update my profile
-  const updateMyProfile = async(userId: string, data: any)=> {
+  const updateMyProfile = async(userId: string, data: any,file:any)=> {
     
     const existingUser = await prisma.user.findUnique({
       where: {id: userId}
@@ -64,6 +65,11 @@ import AppError from "../../customizer/AppErrror";
     if(!existingUser) {
        throw new AppError(404,"User not found");
     }
+
+     if (file) {
+        const uploads = await fileUploader.uploadToCloudinary(file);
+        data.image = uploads!.secure_url as string;
+      }
 
     const updatedUser = await prisma.user.update({
       where: {id: userId},

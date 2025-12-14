@@ -53,6 +53,10 @@ const getMyEvents = async (userInfo: JwtPayload) => {
         time: true,
         location: true,
         participantCount: true,
+        maxParticipants:true,
+        minParticipants:true,
+        status:true,
+        type:true,
         image: true,
         fee: true,
         participants: {

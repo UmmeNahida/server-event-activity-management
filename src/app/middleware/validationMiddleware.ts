@@ -7,6 +7,7 @@ export const validationSchema = (schema: ZodObject) => (
   next: NextFunction
 ) => {
   let parsedData: any;
+  console.log("req body data;",req.body)
 
   try {
     // Case 1: req.body.data exists → usually from multipart/form-data

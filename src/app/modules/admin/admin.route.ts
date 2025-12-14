@@ -5,9 +5,6 @@ import authCookies from "../../middleware/authCookies";
 
 const router = Router();
 
-// Only Admin
-router.use(authCookies(Role.ADMIN));
-
 router.get(
   "/analytics",
   authCookies(Role.ADMIN),
@@ -44,13 +41,11 @@ router.delete(
   AdminController.deleteUser
 );
 router.patch(
-  "/users/promote/:id",
-  authCookies(Role.ADMIN),
+  "/users/promote/:email",
   AdminController.promoteToHost
 );
 router.patch(
   "/users/demote/:id",
-  authCookies(Role.ADMIN),
   AdminController.demoteToUser
 );
 
