@@ -11,6 +11,7 @@ model User {
   location    String?
   isDeleted    Boolean @default(false)
   isRequestedHost Boolean @default(false)
+  needPasswordChange  Boolean @default(false)
   role        Role     @default(USER)
   userStatus  UserStatus @default(ACTIVE)
 
