@@ -59,6 +59,7 @@ const getMyEvents = async (userInfo: JwtPayload) => {
         type:true,
         image: true,
         fee: true,
+        description:true,
         participants: {
           include: {
             user: {

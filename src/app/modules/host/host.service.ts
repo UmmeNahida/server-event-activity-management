@@ -8,15 +8,14 @@ import { fileUploader } from "@/app/helper/fileUploader";
 const createEvent = async (
   hostId: string,
   payload: Prisma.EventCreateInput,
-  file:any
+  file: any
 ) => {
-
   // upload file to cloudinary
-    if (file) {
-      const uploads = await fileUploader.uploadToCloudinary(file);
-      payload.image = uploads!.secure_url as string;
-    }
-  console.log("payload_host:", payload);
+  if (file) {
+    const uploads = await fileUploader.uploadToCloudinary(file);
+    payload.image = uploads!.secure_url as string;
+  }
+  // console.log("payload_host:", payload);
 
   // Host validation
   const host = await prisma.user.findFirst({

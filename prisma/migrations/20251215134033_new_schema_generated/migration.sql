@@ -8,7 +8,7 @@ CREATE TYPE "UserStatus" AS ENUM ('ACTIVE', 'INACTIVE', 'BLOCKED', 'REQUESTED', 
 CREATE TYPE "PaymentStatus" AS ENUM ('PAID', 'UNPAID', 'PENDING', 'COMPLETED');
 
 -- CreateEnum
-CREATE TYPE "EventStatus" AS ENUM ('OPEN', 'CLOSED', 'CANCELLED', 'COMPLETED');
+CREATE TYPE "EventStatus" AS ENUM ('OPEN', 'CLOSED', 'PENDING', 'CANCELLED', 'COMPLETED');
 
 -- CreateEnum
 CREATE TYPE "ReviewStatus" AS ENUM ('PENDING', 'APPROVED', 'REJECTED');
@@ -89,6 +89,7 @@ CREATE TABLE "User" (
     "location" TEXT,
     "isDeleted" BOOLEAN NOT NULL DEFAULT false,
     "isRequestedHost" BOOLEAN NOT NULL DEFAULT false,
+    "needPasswordChange" BOOLEAN NOT NULL DEFAULT false,
     "role" "Role" NOT NULL DEFAULT 'USER',
     "userStatus" "UserStatus" NOT NULL DEFAULT 'ACTIVE',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
