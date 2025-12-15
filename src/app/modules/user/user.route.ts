@@ -2,7 +2,6 @@ import { Router } from "express";
 import { UserController } from "./user.controller";
 import authCookies from "../../middleware/authCookies";
 import { Role } from "@prisma/client";
-import { fileLoader } from "ejs";
 import { fileUploader } from "@/app/helper/fileUploader";
 
 const route = Router();
