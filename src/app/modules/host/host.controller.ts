@@ -9,7 +9,6 @@ const createEvent = catchAsync(async(req:Request & JwtPayload,res:Response, next
    const hostId = req.user.id; // From JWT
     const payload = req.body;
     const file = req.file;
-    console.log("req user", req.user)
 
     const result = await HostService.createEvent(hostId, payload,file);
 
