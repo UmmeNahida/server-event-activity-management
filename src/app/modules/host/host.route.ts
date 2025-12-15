@@ -18,8 +18,9 @@ router.post(
 );
 
 // update_event(host)
-router.get(
+router.patch(
   "/edit/:id",
+   fileUploader.upload.single('file'),
   authCookies(Role.HOST),
   HostController.updateEvent
 );

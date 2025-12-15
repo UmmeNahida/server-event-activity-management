@@ -4,24 +4,24 @@ import { JwtPayload } from "jsonwebtoken";
 import { sendResponse } from "../../utils/sendResponse";
 import { HostService } from "./host.service";
 
-const createEvent = catchAsync(async(req:Request & JwtPayload,res:Response, next:NextFunction)=>{
-   
-   const hostId = req.user.id; // From JWT
-    const payload = req.body;
-    const file = req.file;
+const createEvent = catchAsync(async (req: Request & JwtPayload, res: Response, next: NextFunction) => {
 
-    const result = await HostService.createEvent(hostId, payload,file);
+  const hostId = req.user.id; // From JWT
+  const payload = req.body;
+  const file = req.file;
 
-    sendResponse(res, {
-      statusCode: 201,
-      success: true,
-      message: "Event created successfully",
-      data: result,
-    });
+  const result = await HostService.createEvent(hostId, payload, file);
+
+  sendResponse(res, {
+    statusCode: 201,
+    success: true,
+    message: "Event created successfully",
+    data: result,
+  });
 })
 
 
-const getEventAnalytics = catchAsync(async (req:Request & JwtPayload, res:Response,NextFunction) => {
+const getEventAnalytics = catchAsync(async (req: Request & JwtPayload, res: Response, NextFunction) => {
   const user = req.user;
 
   const data = await HostService.getEventAnalytics(user.id);
@@ -34,43 +34,48 @@ const getEventAnalytics = catchAsync(async (req:Request & JwtPayload, res:Respon
   });
 });
 
-const updateEvent = catchAsync(async(req:Request & JwtPayload,res:Response, next:NextFunction)=>{
-   
-    const userInfo = req.user; // From JWT
-    const userPayload = req.body;
-    const eventId = req.params.id
-    
-    // const hostId = req.user.id; // From JWT
-    const result = await HostService.updateEvent(eventId,userInfo,userPayload);
+const updateEvent = catchAsync(async (req: Request & JwtPayload, res: Response, next: NextFunction) => {
 
-    sendResponse(res, {
-      statusCode: 201,
-      success: true,
-      message: "Event has been updated successfully",
-      data: result,
-    });
+  const userInfo = req.user; // From JWT
+  let userPayload = req.body;
+  const eventId = req.params.id
+  const file = req.file;
+
+  if (typeof req.body.data === "string") {
+    userPayload = JSON.parse(req.body.data)
+  }
+
+  // const hostId = req.user.id; // From JWT
+  const result = await HostService.updateEvent(eventId, userInfo, userPayload,file);
+
+  sendResponse(res, {
+    statusCode: 201,
+    success: true,
+    message: "Event has been updated successfully",
+    data: result,
+  });
 })
 
 
-const paymentOverview = catchAsync(async(req:Request & JwtPayload,res:Response, next:NextFunction)=>{
-   
-    const hostId = req.user.id; 
-    
-    // const hostId = req.user.id; // From JWT
-    const result = await HostService.paymentOverview(hostId);
+const paymentOverview = catchAsync(async (req: Request & JwtPayload, res: Response, next: NextFunction) => {
 
-    sendResponse(res, {
-      statusCode: 201,
-      success: true,
-      message: "Host payment overview retrieve successfully",
-      data: result,
-    });
+  const hostId = req.user.id;
+
+  // const hostId = req.user.id; // From JWT
+  const result = await HostService.paymentOverview(hostId);
+
+  sendResponse(res, {
+    statusCode: 201,
+    success: true,
+    message: "Host payment overview retrieve successfully",
+    data: result,
+  });
 })
 
 
 export const HostController = {
-    getEventAnalytics,
-    createEvent,
-    updateEvent,
-    paymentOverview
+  getEventAnalytics,
+  createEvent,
+  updateEvent,
+  paymentOverview
 }
