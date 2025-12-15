@@ -16,7 +16,7 @@ const createEvent = async (
       const uploads = await fileUploader.uploadToCloudinary(file);
       payload.image = uploads!.secure_url as string;
     }
-  console.log("payload_host:", payload);
+  // console.log("payload_host:", payload);
 
   // Host validation
   const host = await prisma.user.findFirst({
