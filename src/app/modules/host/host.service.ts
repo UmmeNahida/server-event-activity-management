@@ -120,7 +120,7 @@ const getEventAnalytics = async (hostId: string) => {
     _sum: { amount: true },
   });
 
-    const monthly = await prisma.payment.groupBy({
+  const monthly = await prisma.payment.groupBy({
     by: ["createAt"],
     where: {
       event: {
@@ -138,7 +138,7 @@ const getEventAnalytics = async (hostId: string) => {
     avgRating,
     totalReports,
     revenue: payments._sum.amount || 0,
-     monthlyEarnings: monthly,
+    monthlyEarnings: monthly,
   };
 };
 

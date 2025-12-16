@@ -10,8 +10,9 @@ export const registerUser = async (
   userData: Partial<Prisma.UserCreateInput>,
   file: any
 ) => {
-  // console.log("user Payload", payload)
   const { password, ...rest } = userData;
+    console.log("user Payload", userData)
+
 
   if (!password) throw new Error("Password is required");
 
