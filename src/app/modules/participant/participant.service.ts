@@ -126,7 +126,7 @@ const jointEvents = async (userId: string, eventId: string) => {
 
 const addReview = async(user: JwtPayload, payload: IReview)=> {
   const { eventId, rating, comment } = payload;
-
+ console.log("addreview",payload)
 
   // 1. Check user participated
   const participated = await prisma.eventParticipant.findFirst({

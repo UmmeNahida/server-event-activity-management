@@ -19,7 +19,7 @@ app.post("/webhook",
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: ['http://localhost:8080','http://localhost:3000'],
+    origin: ['https://event-activity-client.vercel.app','http://localhost:8080','http://localhost:3000'],
     credentials: true
 }));
 app.use('/api/v1', router)

@@ -14,9 +14,6 @@ export const userCreateSchema = z.object({
     }).max(100, {
         error: "Password must be at most 100 characters long",
     }),
-    confirmPassword: z.string().min(6, {
-        error: "Confirm Password is required and must be at least 6 characters long",
-    }).optional(),
   bio: z
     .string()
     .optional(),
@@ -41,7 +38,4 @@ export const userCreateSchema = z.object({
   role: z
     .enum(["USER", "ADMIN","HOST"])
     .default("USER"),
-}).refine((data: any) => data.password === data.confirmPassword,{
-    error: "Passwords do not match",
-    path: ["confirmPassword"],
 });

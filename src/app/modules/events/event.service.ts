@@ -239,7 +239,7 @@ const getEventHistory = async(user:IVerifiedUser) =>{
 }
 
 const singleEvent = async (id: string): Promise<Partial<Event> | null> => {
-    console.log("id:", id)
+    // console.log("id:", id)
     const result = await prisma.event.findUnique({
         where: {
             id,
