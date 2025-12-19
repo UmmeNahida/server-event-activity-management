@@ -36,7 +36,7 @@ router.patch(
   AdminController.updateUserStatus
 );
 router.delete(
-  "/users/:id",
+  "/users/delete/:id",
   authCookies(Role.ADMIN),
   AdminController.deleteUser
 );

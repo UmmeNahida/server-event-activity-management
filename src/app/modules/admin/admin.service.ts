@@ -147,10 +147,19 @@ export const AdminService = {
 
     const successRate = (successful / totalTransactions) * 100;
 
+    const monthly = await prisma.payment.groupBy({
+      by: ["createAt"],
+      where: {
+        status: "PAID",
+      },
+      _sum: { amount: true },
+    });
+
     return {
       totalRevenue: totalRevenue._sum.amount || 0,
       pendingAmount: pending._sum.amount || 0,
       successRate,
+      monthlyEarnings:monthly
     };
   },
 
@@ -218,26 +227,26 @@ export const AdminService = {
   deleteUser: async (id: string) => {
     return prisma.user.update({
       where: { id },
-      data: { isDeleted: true, userStatus: "INACTIVE" },
+      data: { isDeleted: true, userStatus: "BLOCKED" },
     });
   },
 
   promoteToHost: async (email: string) => {
-    
+
     const isExistHost = await prisma.user.findUnique({
-      where: { email, role:Role.HOST}
+      where: { email, role: Role.HOST }
     });
 
-    if(isExistHost){
-      throw new AppError(400,"you're already Host" )
+    if (isExistHost) {
+      throw new AppError(400, "you're already Host")
     }
 
     const isRequestedToHost = await prisma.user.findUnique({
-      where: { email, userStatus:UserStatus.REQUESTED}
+      where: { email, userStatus: UserStatus.REQUESTED }
     });
 
-    if(isRequestedToHost){
-      throw new AppError(400,"Please Waiting for admin approve" )
+    if (isRequestedToHost) {
+      throw new AppError(400, "Please Waiting for admin approve")
     }
 
     const user = await prisma.user.update({
@@ -335,7 +344,7 @@ export const AdminService = {
   },
 
   rejectHost: async (id: string) => {
-    return prisma.user.update({
+    const rejectHost = await prisma.user.update({
       where: { id },
       data: {
         role: "USER",
@@ -343,5 +352,7 @@ export const AdminService = {
         isRequestedHost: false,
       },
     });
+
+    return rejectHost
   },
 };
