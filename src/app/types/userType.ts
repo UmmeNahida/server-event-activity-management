@@ -10,18 +10,30 @@ export interface LoginInput {
 }
 
 export interface IReview {
-  eventId:string;
+  eventId: string;
   rating: number;
-  comment: string
+  comment: string;
 }
 
-export type UserRole = 'ADMIN' | 'HOST' | 'USER';
-export type UserStatus = 'OPEN' | 'CLOSED' | 'CANCELLED' | 'COMPLETED';
+export type UserRole = "ADMIN" | "HOST" | "USER";
+export type UserStatus =
+  | "OPEN"
+  | "CLOSED"
+  | "CANCELLED"
+  | "COMPLETED";
 
 export interface IVerifiedUser {
   id: string;
-  email:string;
+  email: string;
   role: UserRole;
-  iat:number;
-  exp:number
+  iat: number;
+  exp: number;
+}
+
+export interface IPayloadUser {
+  user?: {
+    id: string;
+    role: string;
+    email: string;
+  };
 }

@@ -4,15 +4,14 @@ import { generateToken } from "../../helper/jwtToken";
 import { envVars } from "../../config/env";
 import { fileUploader } from "../../helper/fileUploader";
 import { Prisma, UserStatus } from "@prisma/client";
-import AppError from "@/app/customizer/AppErrror";
+import AppError from "@/app/config/customizer/AppError";
 
 export const registerUser = async (
   userData: Partial<Prisma.UserCreateInput>,
   file: any
 ) => {
   const { password, ...rest } = userData;
-    console.log("user Payload", userData)
-
+  console.log("user Payload", userData);
 
   if (!password) throw new Error("Password is required");
 
@@ -102,45 +101,53 @@ export const loginUser = async (
   };
 };
 
-
 const changePassword = async (user: any, payload: any) => {
   //  console.log("payload:",payload)
-    const userData = await prisma.user.findUnique({
-        where: {
-            email: user.email,
-            userStatus: UserStatus.ACTIVE
-        }
-    });
+  const userData = await prisma.user.findUnique({
+    where: {
+      email: user.email,
+      userStatus: UserStatus.ACTIVE,
+    },
+  });
 
-    if(!userData){
-      throw new AppError(400,"You're not a Active person so you need to Active First")
-    }
+  if (!userData) {
+    throw new AppError(
+      400,
+      "You're not a Active person so you need to Active First"
+    );
+  }
 
-    const isCorrectPassword: boolean = await bcrypt.compare(payload.oldPassword, userData.password);
+  const isCorrectPassword: boolean = await bcrypt.compare(
+    payload.oldPassword,
+    userData.password
+  );
 
-    if (!isCorrectPassword) {
-        throw new Error("Password incorrect!")
-    }
+  if (!isCorrectPassword) {
+    throw new Error("Password incorrect!");
+  }
 
-    const hashedPassword: string = await bcrypt.hash(payload.newPassword, 10);
+  const hashedPassword: string = await bcrypt.hash(
+    payload.newPassword,
+    10
+  );
 
-    await prisma.user.update({
-        where: {
-            email: userData.email
-        },
-        data: {
-            password: hashedPassword,
-            needPasswordChange: false
-        }
-    })
+  await prisma.user.update({
+    where: {
+      email: userData.email,
+    },
+    data: {
+      password: hashedPassword,
+      needPasswordChange: false,
+    },
+  });
 
-    return {
-        message: "Password changed successfully!"
-    }
+  return {
+    message: "Password changed successfully!",
+  };
 };
 
 export const AuthService = {
   registerUser,
   loginUser,
-  changePassword
+  changePassword,
 };

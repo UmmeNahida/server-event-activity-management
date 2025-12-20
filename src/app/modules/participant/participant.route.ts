@@ -18,4 +18,17 @@ router.post(
   ParticipantController.addReview
 );
 
+router.get(
+  "/joined-event",
+  authCookies("USER"),
+  ParticipantController.getJoinedEvents
+);
+
+router.get(
+  "/passed-event",
+  authCookies("USER"),
+  ParticipantController.getUserJoinedPastEvents
+);
+
+
 export const ParticipantRoutes = router;

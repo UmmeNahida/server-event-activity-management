@@ -4,7 +4,7 @@ import {
   calcultatepagination,
   Ioptions,
 } from "../../helper/paginationHelper";
-import AppError from "@/app/customizer/AppErrror";
+import AppError from "@/app/config/customizer/AppError";
 
 interface EventFilter {
   type?: string;
@@ -159,7 +159,7 @@ export const AdminService = {
       totalRevenue: totalRevenue._sum.amount || 0,
       pendingAmount: pending._sum.amount || 0,
       successRate,
-      monthlyEarnings:monthly
+      monthlyEarnings: monthly,
     };
   },
 
@@ -232,21 +232,20 @@ export const AdminService = {
   },
 
   promoteToHost: async (email: string) => {
-
     const isExistHost = await prisma.user.findUnique({
-      where: { email, role: Role.HOST }
+      where: { email, role: Role.HOST },
     });
 
     if (isExistHost) {
-      throw new AppError(400, "you're already Host")
+      throw new AppError(400, "you're already Host");
     }
 
     const isRequestedToHost = await prisma.user.findUnique({
-      where: { email, userStatus: UserStatus.REQUESTED }
+      where: { email, userStatus: UserStatus.REQUESTED },
     });
 
     if (isRequestedToHost) {
-      throw new AppError(400, "Please Waiting for admin approve")
+      throw new AppError(400, "Please Waiting for admin approve");
     }
 
     const user = await prisma.user.update({
@@ -353,6 +352,6 @@ export const AdminService = {
       },
     });
 
-    return rejectHost
+    return rejectHost;
   },
 };

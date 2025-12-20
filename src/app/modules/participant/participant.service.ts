@@ -1,11 +1,16 @@
 import httpStatus from "http-status-codes";
 import { prisma } from "../../../lib/prisma";
-import AppError from "../../customizer/AppErrror";
 import { v4 as uuidv4 } from "uuid";
 import { stripe } from "../../helper/stripe";
 import { JwtPayload } from "jsonwebtoken";
 import { IReview } from "../../types/userType";
 import { envVars } from "@/app/config/env";
+import {
+  calcultatepagination,
+  Ioptions,
+} from "@/app/helper/paginationHelper";
+import AppError from "@/app/config/customizer/AppError";
+import { JoinedEventFilters } from "@/app/types/participants";
 
 const jointEvents = async (userId: string, eventId: string) => {
   const user = await prisma.user.findFirst({
@@ -184,7 +189,156 @@ const addReview = async (user: JwtPayload, payload: IReview) => {
   return review;
 };
 
+const getJoinedEvents = async (
+  userId: string,
+  filters: any,
+  options: any
+) => {
+  const { search, date } = filters;
+  const { page, limit, skip } = calcultatepagination(options);
+
+  const whereCondition: any = {
+    userId,
+    ...(search || date
+      ? {
+          event: {
+            ...(search && {
+              OR: [
+                { name: { contains: search, mode: "insensitive" } },
+                {
+                  description: {
+                    contains: search,
+                    mode: "insensitive",
+                  },
+                },
+                {
+                  location: {
+                    contains: search,
+                    mode: "insensitive",
+                  },
+                },
+              ],
+            }),
+            ...(date && {
+              date: {
+                gte: new Date(date + "T00:00:00"),
+                lte: new Date(date + "T23:59:59"),
+              },
+            }),
+          },
+        }
+      : {}),
+  };
+
+  const joinedEvents = await prisma.eventParticipant.findMany({
+    where: whereCondition,
+    skip,
+    take: limit,
+    orderBy: {
+      joinedAt: "desc",
+    },
+    include: {
+      event: {
+        include: {
+          host: {
+            select: {
+              id: true,
+              name: true,
+              image: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  const total = await prisma.eventParticipant.count({
+    where: whereCondition,
+  });
+
+  return {
+    meta: { page, limit, total },
+    data: joinedEvents,
+  };
+};
+
+const getUserJoinedPastEvents = async (
+  userId: string,
+  filters: JoinedEventFilters,
+  options: Ioptions
+) => {
+  const { search, date } = filters;
+  const { page, limit, skip} = calcultatepagination(options);
+
+ 
+  const now = new Date();
+
+  const whereCondition: any = {
+    userId,
+
+    event: {
+      // only past events
+      date: {
+        lt: now,
+      },
+
+      ...(search && {
+        OR: [
+          { name: { contains: search, mode: "insensitive" } },
+          { description: { contains: search, mode: "insensitive" } },
+          { location: { contains: search, mode: "insensitive" } },
+        ],
+      }),
+
+      ...(date && {
+        date: {
+          gte: new Date(date + "T00:00:00"),
+          lte: new Date(date + "T23:59:59"),
+        },
+      }),
+    },
+  };
+
+  const joinedEvents = await prisma.eventParticipant.findMany({
+    where: whereCondition,
+    skip,
+    take: limit,
+      orderBy: {
+      joinedAt: "desc",
+    },
+    include: {
+      event: {
+        include: {
+          host: {
+            select: {
+              id: true,
+              name: true,
+              image: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  const total = await prisma.eventParticipant.count({
+    where: whereCondition,
+  });
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+      totalPage: Math.ceil(total / limit),
+    },
+    data: joinedEvents,
+  };
+};
+
 export const ParticipantService = {
   jointEvents,
   addReview,
+  getJoinedEvents,
+  getUserJoinedPastEvents,
 };

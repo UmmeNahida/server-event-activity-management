@@ -1,26 +1,32 @@
 import httpStatus from "http-status-codes";
 import { prisma } from "../../../lib/prisma";
-import AppError from "../../customizer/AppErrror";
 import { JwtPayload } from "jsonwebtoken";
 import { IVerifiedUser } from "../../types/userType";
 import { IEventStatus } from "../../types/eventType";
-
-
+import AppError from "@/app/config/customizer/AppError";
 
 const getAllEvents = async () => {
   const events = await prisma.event.findMany();
   return events;
-}
+};
 
-
-const updateEventStatus = async(user:IVerifiedUser, eventId:string, status:IEventStatus)=> {
+const updateEventStatus = async (
+  user: IVerifiedUser,
+  eventId: string,
+  status: IEventStatus
+) => {
   const validStatus = ["OPEN", "CLOSED", "CANCELLED", "COMPLETED"];
 
   if (!validStatus.includes(status)) {
-    throw new AppError(httpStatus.BAD_REQUEST, "Invalid event status");
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      "Invalid event status"
+    );
   }
 
-  const event = await prisma.event.findUnique({ where: { id: eventId } });
+  const event = await prisma.event.findUnique({
+    where: { id: eventId },
+  });
 
   if (!event) throw new AppError(404, "Event not found");
 
@@ -36,11 +42,9 @@ const updateEventStatus = async(user:IVerifiedUser, eventId:string, status:IEven
   });
 
   return updated;
-}
-
+};
 
 const getMyEvents = async (userInfo: JwtPayload) => {
-
   const { id, role } = userInfo;
 
   if (role === "HOST") {
@@ -53,26 +57,25 @@ const getMyEvents = async (userInfo: JwtPayload) => {
         time: true,
         location: true,
         participantCount: true,
-        maxParticipants:true,
-        minParticipants:true,
-        status:true,
-        type:true,
+        maxParticipants: true,
+        minParticipants: true,
+        status: true,
+        type: true,
         image: true,
         fee: true,
-        description:true,
+        description: true,
         participants: {
           include: {
             user: {
               select: {
                 id: true,
                 name: true,
-                email: true
-              }
-            }
-          }
-        }
-
-      }
+                email: true,
+              },
+            },
+          },
+        },
+      },
     });
     return {
       type: "HOST_EVENTS",
@@ -108,12 +111,9 @@ const getMyEvents = async (userInfo: JwtPayload) => {
       events: events.map((p) => p.event),
     };
   }
-
-}
-
+};
 
 const getMyReview = async (userInfo: JwtPayload) => {
-
   const { id, role } = userInfo;
 
   // USER → reviews given by user
@@ -122,14 +122,14 @@ const getMyReview = async (userInfo: JwtPayload) => {
       where: { reviewerId: id },
       include: {
         event: true,
-          host: {
+        host: {
           select: {
-            id:true,
+            id: true,
             name: true,
             email: true,
             image: true,
-          }
-        }
+          },
+        },
       },
       orderBy: { createdAt: "desc" },
     });
@@ -162,11 +162,9 @@ const getMyReview = async (userInfo: JwtPayload) => {
       reviews,
     };
   }
+};
 
-}
-
-
-const getUpcomingEvents =(user:IVerifiedUser) =>{
+const getUpcomingEvents = (user: IVerifiedUser) => {
   const now = new Date();
 
   // USER → upcoming joined events
@@ -179,7 +177,7 @@ const getUpcomingEvents =(user:IVerifiedUser) =>{
         },
       },
       include: { host: true },
-      orderBy: { date: "asc" }
+      orderBy: { date: "asc" },
     });
   }
 
@@ -191,7 +189,7 @@ const getUpcomingEvents =(user:IVerifiedUser) =>{
         hostId: user.id,
       },
       include: { participants: true },
-      orderBy: { date: "asc" }
+      orderBy: { date: "asc" },
     });
   }
 
@@ -199,14 +197,14 @@ const getUpcomingEvents =(user:IVerifiedUser) =>{
   if (user.role === "ADMIN") {
     return prisma.event.findMany({
       where: { date: { gt: now } },
-      orderBy: { date: "asc" }
+      orderBy: { date: "asc" },
     });
   }
-}
+};
 
-const getEventHistory = async(user:IVerifiedUser) =>{
+const getEventHistory = async (user: IVerifiedUser) => {
   const now = new Date();
-  console.log("user>>>:", user)
+  console.log("user>>>:", user);
 
   if (user.role === "USER") {
     return await prisma.event.findMany({
@@ -215,7 +213,7 @@ const getEventHistory = async(user:IVerifiedUser) =>{
         participants: { some: { userId: user.id } },
       },
       include: { host: true },
-      orderBy: { date: "desc" }
+      orderBy: { date: "desc" },
     });
   }
 
@@ -226,51 +224,70 @@ const getEventHistory = async(user:IVerifiedUser) =>{
         hostId: user.id,
       },
       include: { participants: true },
-      orderBy: { date: "desc" }
+      orderBy: { date: "desc" },
     });
   }
 
   if (user.role === "ADMIN") {
     return await prisma.event.findMany({
       where: { date: { lt: now } },
-      orderBy: { date: "desc" }
+      orderBy: { date: "desc" },
     });
   }
-}
-
-const singleEvent = async (id: string): Promise<Partial<Event> | null> => {
-    // console.log("id:", id)
-    const result = await prisma.event.findUnique({
-        where: {
-            id,
-        },
-        include: {
-            host: {
-                select: {
-                    id: true,
-                    name:true,
-                    image:true,
-                    location:true,
-                    bio:true
-                },
-            },
-            participants: {
-                include: {
-                    user:{select:{id:true,name:true,image:true,location:true,hobbies:true,interests:true}}
-                }
-            },
-            reviews:{include:{reviewer:{select:{name:true,image:true,hobbies:true,interests:true}}}},
-            payments:{select:{status:true,amount:true}}
-        },
-    });
-    
-    return result
 };
 
+const singleEvent = async (
+  id: string
+): Promise<Partial<Event> | null> => {
+  // console.log("id:", id)
+  const result = await prisma.event.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      host: {
+        select: {
+          id: true,
+          name: true,
+          image: true,
+          location: true,
+          bio: true,
+        },
+      },
+      participants: {
+        include: {
+          user: {
+            select: {
+              id: true,
+              name: true,
+              image: true,
+              location: true,
+              hobbies: true,
+              interests: true,
+            },
+          },
+        },
+      },
+      reviews: {
+        include: {
+          reviewer: {
+            select: {
+              name: true,
+              image: true,
+              hobbies: true,
+              interests: true,
+            },
+          },
+        },
+      },
+      payments: { select: { status: true, amount: true } },
+    },
+  });
 
+  return result;
+};
 
-
-export const EventService = { 
+export const EventService = {
   getAllEvents,
   getMyEvents,
   updateEventStatus,

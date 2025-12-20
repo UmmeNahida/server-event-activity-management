@@ -1,16 +1,15 @@
 import { prisma } from "../../../lib/prisma";
-import AppError from "../../customizer/AppErrror";
 import httpStatus from "http-status-codes";
 import { IVerifiedUser } from "../../types/userType";
 import { Prisma } from "@prisma/client";
 import { fileUploader } from "@/app/helper/fileUploader";
+import AppError from "@/app/config/customizer/AppError";
 
 const createEvent = async (
   hostId: string,
   payload: Prisma.EventCreateInput,
   file: any
 ) => {
-
   // upload file to cloudinary
   if (file) {
     const uploads = await fileUploader.uploadToCloudinary(file);
@@ -83,7 +82,7 @@ const getEventAnalytics = async (hostId: string) => {
   });
 
   const hostReport = await prisma.report.findMany({
-    where: { targetUserId: hostId }
+    where: { targetUserId: hostId },
   });
 
   const totalReports = hostReport.length;
@@ -106,8 +105,8 @@ const getEventAnalytics = async (hostId: string) => {
   const avgRating =
     allRatings.length > 0
       ? (
-        allRatings.reduce((a, b) => a + b, 0) / allRatings.length
-      ).toFixed(2)
+          allRatings.reduce((a, b) => a + b, 0) / allRatings.length
+        ).toFixed(2)
       : 0;
 
   // Revenue (optional)
@@ -154,7 +153,6 @@ const updateEvent = async (
   });
 
   const { date, time, ...restUpdateInfo } = updateInfo as any;
-
 
   // check permission
   if (isExistHost.hostId !== userInfo.id) {
@@ -205,8 +203,8 @@ const paymentOverview = async (hostId: string) => {
   const avgRating =
     allRatings.length > 0
       ? (
-        allRatings.reduce((a, b) => a + b, 0) / allRatings.length
-      ).toFixed(2)
+          allRatings.reduce((a, b) => a + b, 0) / allRatings.length
+        ).toFixed(2)
       : 0;
 
   const totalEarnings = await prisma.payment.aggregate({
