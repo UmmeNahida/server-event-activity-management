@@ -166,7 +166,7 @@ const  getAllHosts = catchAsync(async (req, res) => {
       sendResponse(res,{
             success: true,
             statusCode: httpStatus.CREATED,
-            message: "host hase been approved successfully",
+            message: "host has been Rejected",
             data: result
         });
   })

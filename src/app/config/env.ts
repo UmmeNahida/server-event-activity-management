@@ -19,13 +19,14 @@ interface IEnvVars {
     CLOUDINARY_CLOUD_NAME: string,
     CLOUDINARY_API_KEY: string,
     CLOUDINARY_API_SECRET: string,
+    FRONTEND_BASE_URL:string
 
 }
 
 const loadEnvVars = (): IEnvVars => {
     const requiredEnvVars: string[] = ["PORT", "DATABASE_URL", "NODE_ENV", "JWT_SECRET", "JWT_EXPIRES_IN", "JWT_REFRESH_SECRET", "JWT_EXPIRES_IN_REFRESH", "RESET_PASS_TOKEN", "RESET_PASS_TOKEN_EXPIRES_IN", "SALT_ROUND",
         "STRIPE_PUBLISHABLE_KEY", "STRIPE_PUBLISHABLE_SECRET_KEY", "Stripe_Webhook_Scret",
-        "CLOUDINARY_CLOUD_NAME", "CLOUDINARY_API_KEY", "CLOUDINARY_API_SECRET"
+        "CLOUDINARY_CLOUD_NAME", "CLOUDINARY_API_KEY", "CLOUDINARY_API_SECRET","FRONTEND_BASE_URL"
     ]
 
     requiredEnvVars.forEach(key => {
@@ -51,6 +52,7 @@ const loadEnvVars = (): IEnvVars => {
         CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME as string,
         CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY as string,
         CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET as string,
+        FRONTEND_BASE_URL: process.env.FRONTEND_BASE_URL as string
 
     }
 }

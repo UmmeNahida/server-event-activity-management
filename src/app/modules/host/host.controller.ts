@@ -51,14 +51,20 @@ const updateEvent = catchAsync(
     next: NextFunction
   ) => {
     const userInfo = req.user; // From JWT
-    const userPayload = req.body;
+    let userPayload = req.body;
     const eventId = req.params.id;
+    const file = req.file;
+
+    if (typeof req.body.data === "string") {
+      userPayload = JSON.parse(req.body.data);
+    }
 
     // const hostId = req.user.id; // From JWT
     const result = await HostService.updateEvent(
       eventId,
       userInfo,
-      userPayload
+      userPayload,
+      file
     );
 
     sendResponse(res, {
