@@ -12,7 +12,7 @@ model Event {
   maxParticipants Int
   participantCount  Int      @default(0)
   fee             Float    @default(0)
-  status          EventStatus  @default(OPEN) 
+  status          EventStatus  @default(PENDING) 
   createdAt       DateTime @default(now())
 
   host     User   @relation("hostedEvents", fields: [hostId], references: [id])
