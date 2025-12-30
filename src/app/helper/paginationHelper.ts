@@ -18,7 +18,7 @@ export type IOptionsResult = {
 export const calcultatepagination = (options: Ioptions) => {
 
     const page = Number(options.page) || 1;
-    const limit = Number(options.limit) || 10;
+    const limit = Number(options.limit) || 5;
     const skip = (page - 1) * limit;
 
     const sortBy = options.sortBy || "createdAt";
