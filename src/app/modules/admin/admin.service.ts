@@ -87,8 +87,7 @@ export const AdminService = {
             gte: new Date(date + "T00:00:00"),
             lte: new Date(date + "T23:59:59"),
           },
-        }),
-        status: "OPEN",
+        })
       }
 
     const events = await prisma.event.findMany({
@@ -163,7 +162,7 @@ export const AdminService = {
     const { page, limit, skip, sortBy, sortOrder } =
       calcultatepagination(options);
 
-    const where: any = { role: Role.USER };
+    const where: any = { role: Role.USER, isDeleted:false};
 
     if (userStatus) {
       where.userStatus = userStatus
@@ -256,7 +255,7 @@ export const AdminService = {
     const { page, limit, skip, sortBy, sortOrder } =
       calcultatepagination(options);
 
-    const where: any = { role: "HOST" };
+    const where: any = { role: "HOST", isDeleted:false };
 
     if (userStatus) where.userStatus = userStatus;
     if (location)

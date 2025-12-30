@@ -12,6 +12,7 @@ const updateEventStatus = catchAsync(
   ) => {
     const { id } = req.params;
     const { status } = req.body; // OPEN | CANCELLED | COMPLETED
+    console.log("update events:", req.body)
 
     const data = await EventService.updateEventStatus(
       req.user,
