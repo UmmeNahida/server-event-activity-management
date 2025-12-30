@@ -1,4 +1,4 @@
-import { Role, UserStatus } from "@prisma/client";
+import { Event, Prisma, Role, UserStatus } from "@prisma/client";
 import { prisma } from "../../../lib/prisma";
 import {
   calcultatepagination,
@@ -10,6 +10,7 @@ interface EventFilter {
   type?: string;
   date?: string;
   location?: string;
+  searchTerm?:string
 }
 
 // interface HostInfo {
@@ -67,12 +68,14 @@ export const AdminService = {
   // ===================
 
   getAllEvents: async (filters: EventFilter, options: Ioptions) => {
-    const { type, date, location } = filters;
+    const { type, date, location, searchTerm} = filters;
     const { page, limit, skip, sortBy, sortOrder } =
       calcultatepagination(options);
 
-    const events = await prisma.event.findMany({
-      where: {
+    const whereCondition: Prisma.EventWhereInput = {
+        ...(searchTerm && {
+           name:{contains: searchTerm, mode:"insensitive"}
+        }),
         ...(type && {
           type: { contains: type, mode: "insensitive" },
         }),
@@ -86,7 +89,10 @@ export const AdminService = {
           },
         }),
         status: "OPEN",
-      },
+      }
+
+    const events = await prisma.event.findMany({
+      where: whereCondition,
       skip: skip,
       take: limit,
 
@@ -106,21 +112,7 @@ export const AdminService = {
     });
 
     const total = await prisma.event.count({
-      where: {
-        ...(type && {
-          type: { contains: type, mode: "insensitive" },
-        }),
-        ...(location && {
-          location: { contains: location, mode: "insensitive" },
-        }),
-        ...(date && {
-          date: {
-            gte: new Date(date + "T00:00:00"),
-            lte: new Date(date + "T23:59:59"),
-          },
-        }),
-        status: "OPEN",
-      },
+      where: whereCondition,
     });
 
     return {
@@ -167,34 +159,28 @@ export const AdminService = {
   // USER MANAGEMENT
   // ======================
   getAllUsers: async (query: any, options: Ioptions) => {
-    const { search, location, userStatus } = query;
+    const { searchTerm, location, userStatus } = query;
     const { page, limit, skip, sortBy, sortOrder } =
       calcultatepagination(options);
 
     const where: any = { role: Role.USER };
 
     if (userStatus) {
-      where.userStatus = {
-        in: [
-          "ACTIVE",
-          "INACTIVE",
-          "BLOCKED",
-          "REQUESTED",
-          "SUSPENDED",
-        ],
-      };
+      where.userStatus = userStatus
     }
 
     if (location)
       where.location = { contains: location, mode: "insensitive" };
 
-    if (search) {
+    if (searchTerm) {
       where.OR = [
-        { name: { contains: search, mode: "insensitive" } },
-        { email: { contains: search, mode: "insensitive" } },
-        { location: { contains: search, mode: "insensitive" } },
+        { name: { contains: searchTerm, mode: "insensitive" } },
+        { email: { contains: searchTerm, mode: "insensitive" } },
+        { location: { contains: searchTerm, mode: "insensitive" } },
       ];
     }
+
+    ["Ababil", "Hossain", "via"].splice(0, 2)
 
     const users = await prisma.user.findMany({
       where,
@@ -266,33 +252,21 @@ export const AdminService = {
   // HOST MANAGEMENT
   // ======================
   getAllHosts: async (query: any, options: Ioptions) => {
-    const { search, userStatus, location } = query;
+    const { searchTerm, userStatus, location } = query;
     const { page, limit, skip, sortBy, sortOrder } =
       calcultatepagination(options);
 
     const where: any = { role: "HOST" };
 
-    if (userStatus) {
-      where.userStatus = {
-        in: [
-          "ACTIVE",
-          "INACTIVE",
-          "BLOCKED",
-          "REQUESTED",
-          "SUSPENDED",
-        ],
-      };
-    }
-
-    if (userStatus) where.status = userStatus;
+    if (userStatus) where.userStatus = userStatus;
     if (location)
       where.location = { contains: location, mode: "insensitive" };
 
-    if (search) {
+    if (searchTerm) {
       where.OR = [
-        { name: { contains: search, mode: "insensitive" } },
-        { email: { contains: search, mode: "insensitive" } },
-        { location: { contains: search, mode: "insensitive" } },
+        { name: { contains: searchTerm, mode: "insensitive" } },
+        { email: { contains: searchTerm, mode: "insensitive" } },
+        { location: { contains: searchTerm, mode: "insensitive" } },
       ];
     }
 
