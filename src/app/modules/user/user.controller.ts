@@ -114,9 +114,24 @@ const createReport = catchAsync(
   }
 );
 
+ const getUserById = catchAsync(
+  async (req: Request, res: Response) => {
+    const { userId } = req.params;
+
+    const result = await UserService.getUserById(userId);
+
+    res.status(httpStatus.OK).json({
+      success: true,
+      message: "User retrieved successfully",
+      data: result,
+    });
+  }
+);
+
 export const UserController = {
   getMyProfile,
   updateMyProfile,
   deleteMyAccount,
   createReport,
+  getUserById
 };

@@ -349,6 +349,53 @@ const singleEvent = async (
   return result;
 };
 
+
+const getEventParticipants = async (
+  eventId: string,
+  options: Ioptions
+) => {
+  const { page, limit, skip } = calcultatepagination(options);
+
+  const whereCondition: Prisma.EventParticipantWhereInput = {
+    eventId,
+  };
+
+  const participants = await prisma.eventParticipant.findMany({
+    where: whereCondition,
+    skip,
+    take: limit,
+    orderBy: {
+      joinedAt: "desc",
+    },
+    select: {
+      id: true,
+      paid: true,
+      joinedAt: true,
+      user: {
+        select: {
+          id: true,
+          name: true,
+          image: true,
+          location: true,
+        },
+      },
+    },
+  });
+
+  const total = await prisma.eventParticipant.count({
+    where: whereCondition,
+  });
+
+  return {
+    data: participants,
+    meta: {
+      page,
+      limit,
+      total,
+    },
+  };
+};
+
 export const EventService = {
   getAllEvents,
   getMyEvents,
@@ -357,4 +404,5 @@ export const EventService = {
   getUpcomingEvents,
   getEventHistory,
   singleEvent,
+  getEventParticipants
 };

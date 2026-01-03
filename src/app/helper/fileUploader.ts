@@ -38,16 +38,8 @@ const uploadToCloudinary = async (file: Express.Multer.File) => {
       console.log(error);
     });
 
-
-  console.log(uploadResult);
     return uploadResult;
-  
-
 }
-
-
-
-
 
 export const fileUploader = {
   upload,

@@ -1,6 +1,7 @@
 import { fileUploader } from "@/app/helper/fileUploader";
 import { prisma } from "../../../lib/prisma";
 import AppError from "@/app/config/customizer/AppError";
+import httpStatus from "http-status";
 
 // get my profile
 const getMyProfile = async (userId: string, role: string) => {
@@ -116,9 +117,78 @@ const createReport = async (reporterId: string, payload: any) => {
   });
 };
 
+const getUserById = async (userId: string) => {
+  const user = await prisma.user.findFirst({
+    where: {
+      id: userId,
+      isDeleted: false,
+      userStatus: "ACTIVE",
+    },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      bio: true,
+      image: true,
+      location: true,
+      interests: true,
+      hobbies: true,
+      role: true,
+      isRequestedHost: true,
+      createdAt: true,
+
+      // Relations
+      eventsHosted: {
+        select: {
+          id: true,
+          name: true,
+          date: true,
+          location: true,
+        },
+      },
+      eventsJoined: {
+        select: {
+          id: true,
+          paid: true,
+          joinedAt: true,
+          event: {
+            select: {
+              id: true,
+              name: true,
+              date: true,
+            },
+          },
+        },
+      },
+      reviewsReceived: {
+        select: {
+          id: true,
+          rating: true,
+          comment: true,
+          createdAt: true,
+          reviewer: {
+            select: {
+              id: true,
+              name: true,
+              image: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, "User not found");
+  }
+
+  return user;
+};
+
 export const UserService = {
   getMyProfile,
   updateMyProfile,
   deleteMyAccount,
   createReport,
+  getUserById
 };

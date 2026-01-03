@@ -28,4 +28,6 @@ route.post(
   UserController.createReport
 );
 
+route.get("/:userId", UserController.getUserById)
+
 export const userRoute = route;

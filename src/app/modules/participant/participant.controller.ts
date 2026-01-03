@@ -126,6 +126,8 @@ const getUserJoinedPastEvents = catchAsync(
   }
 );
 
+
+
 export const ParticipantController = {
   joinEvent,
   addReview,

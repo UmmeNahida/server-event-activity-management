@@ -40,11 +40,20 @@ router.get(
   EventController.getUpcomingEvents
 );
 
+
+router.get(
+  "/upcoming",
+  authCookies("USER", "HOST", "ADMIN"),
+  EventController.getUpcomingEvents
+);
+
+
+
 //common(user,host,admin)
 router.get(
-  "/history",
+  "/:eventId/even-participants",
   authCookies("USER", "HOST", "ADMIN"),
-  EventController.getEventHistory
+  EventController.getEventParticipants
 );
 
 export const EventRoutes = router;

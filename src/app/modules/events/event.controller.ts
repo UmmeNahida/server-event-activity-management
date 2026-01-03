@@ -4,6 +4,7 @@ import { sendResponse } from "../../utils/sendResponse";
 import { EventService } from "./event.service";
 import { JwtPayload } from "jsonwebtoken";
 import { pick } from "@/app/helper/pick";
+import httpStatus from "http-status"
 
 const updateEventStatus = catchAsync(
   async (
@@ -63,7 +64,11 @@ const myEvents = catchAsync(
       "sortOrder",
     ]);
 
-    const result = await EventService.getMyEvents(userInfo,filter,options);
+    const result = await EventService.getMyEvents(
+      userInfo,
+      filter,
+      options
+    );
 
     sendResponse(res, {
       statusCode: 201,
@@ -147,6 +152,26 @@ const singleEvent = catchAsync(
   }
 );
 
+const getEventParticipants = catchAsync(
+  async (req: Request, res: Response) => {
+    const { eventId } = req.params;
+
+    const options = pick(req.query, ["page", "limit","skip"]);
+
+    const result = await EventService.getEventParticipants(
+      eventId,
+      options
+    );
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Participants retrieved successfully",
+      data: result
+    });
+  }
+);
+
 export const EventController = {
   allEvent,
   myEvents,
@@ -155,4 +180,5 @@ export const EventController = {
   getEventHistory,
   singleEvent,
   updateEventStatus,
+  getEventParticipants
 };
