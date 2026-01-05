@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { EventStatus, Prisma } from "@prisma/client";
 import { prisma } from "../../../lib/prisma";
 import {
   calcultatepagination,
@@ -11,7 +11,7 @@ interface EventFilter {
   date?: string;
   location?: string;
   searchTerm?: string | "";
-  status?: string;
+  status?: EventStatus;
   minFee?: number;
   maxFee?: number;
   fee?: number;
@@ -31,6 +31,7 @@ const getAllEvents = async (
     maxFee,
     fee,
     location,
+    status,
     ...rest
   } = filters;
 
@@ -63,6 +64,12 @@ const getAllEvents = async (
         lte: end,
       },
     });
+  }
+
+  if (status){
+    andConditions.push({
+      status: status
+    })
   }
 
   // -------------------------------
@@ -221,8 +228,6 @@ const getPopularEvents = () => {
 
 //   return filtered;
 // }
-
-
 
 export const CommonService = {
   getAllEvents,
