@@ -179,8 +179,6 @@ export const AdminService = {
       ];
     }
 
-    ["Ababil", "Hossain", "via"].splice(0, 2)
-
     const users = await prisma.user.findMany({
       where,
       skip,
