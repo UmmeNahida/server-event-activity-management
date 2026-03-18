@@ -1,4 +1,5 @@
 {
     "workbench.colorTheme": "Learn with Sumit - Party",
-    "kiroAgent.configureMCP": "Disabled"
+    "kiroAgent.configureMCP": "Disabled",
+    "chatgpt.openOnStartup": false
 }
