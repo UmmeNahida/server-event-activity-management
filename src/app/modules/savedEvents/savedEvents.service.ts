@@ -6,6 +6,8 @@ import {
 import { parseISO, isValid, startOfDay, endOfDay } from "date-fns";
 
 export const SavedEventService = {
+
+  // create save event on DB
   saveEvent: async (userId: string, eventId: string) => {
     const result = await prisma.$transaction(async (tnx) => {
       await tnx.event.update({
@@ -24,6 +26,7 @@ export const SavedEventService = {
     return result;
   },
 
+  // remove save event on DB
   removeSavedEvent: async (userId: string, eventId: string) => {
     // console.log("ids", userId,eventId)
 
@@ -46,6 +49,8 @@ export const SavedEventService = {
     return result
   },
 
+
+  // get all save events by filtering
   getMySavedEvents: async (
     userId: string,
     options: Ioptions,
