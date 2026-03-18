@@ -50,7 +50,7 @@ export const SavedEventService = {
   },
 
 
-  // get all save events by filtering
+  // get all save events by filtering and sorting
   getMySavedEvents: async (
     userId: string,
     options: Ioptions,
