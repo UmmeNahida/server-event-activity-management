@@ -84,7 +84,7 @@ export const SavedEventService = {
       });
     }
 
-    // 🏷️ type
+    // type
     if (type) {
       eventAndConditions.push({
         type: {
@@ -94,7 +94,7 @@ export const SavedEventService = {
       });
     }
 
-    // 📅 date (whole day)
+    // date (whole day)
     if (date) {
       const parsedDate = parseISO(date);
       if (isValid(parsedDate)) {
@@ -107,7 +107,7 @@ export const SavedEventService = {
       }
     }
 
-    // 💰 fee range
+    // fee range
     if (fee) {
       const [minFee, maxFee] = fee.split(",").map(Number);
       if (!isNaN(minFee) && !isNaN(maxFee)) {
