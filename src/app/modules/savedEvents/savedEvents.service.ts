@@ -26,7 +26,7 @@ export const SavedEventService = {
     return result;
   },
 
-  // remove save event on DB
+  // remove save event on the DB
   removeSavedEvent: async (userId: string, eventId: string) => {
     // console.log("ids", userId,eventId)
 
