@@ -18,13 +18,12 @@ interface EventFilter {
 }
 
 const getAllEvents = async (
-  userId: string | null, // optional user
+  userId: string | null,
   filters: EventFilter,
-  options: Ioptions
+  options: Ioptions,
 ) => {
   const { page, limit, skip, sortBy, sortOrder } =
     calcultatepagination(options);
-
   const {
     searchTerm,
     type,
@@ -39,7 +38,9 @@ const getAllEvents = async (
 
   const andConditions: Prisma.EventWhereInput[] = [];
 
-  // 🔍 SEARCH
+  // -------------------------------
+  // 1) SEARCH TERM (STRING FIELDS: time, location, type)
+  // -------------------------------
   if (searchTerm && typeof searchTerm === "string") {
     andConditions.push({
       OR: eventSearchableField.map((field) => ({
@@ -51,7 +52,9 @@ const getAllEvents = async (
     });
   }
 
-  // 📅 DATE
+  // -------------------------------
+  // 2) DATE FILTERING (YYYY-MM-DD)
+  // -------------------------------
   if (date) {
     const start = new Date(`${date}T00:00:00.000Z`);
     const end = new Date(`${date}T23:59:59.999Z`);
@@ -64,14 +67,15 @@ const getAllEvents = async (
     });
   }
 
-  // 📌 STATUS
   if (status) {
     andConditions.push({
-      status,
+      status: status,
     });
   }
 
-  // 💰 EXACT FEE
+  // -------------------------------
+  // 3) EXACT FEE
+  // -------------------------------
   if (fee !== undefined) {
     andConditions.push({
       fee: {
@@ -80,7 +84,9 @@ const getAllEvents = async (
     });
   }
 
-  // 💰 RANGE FEE
+  // -------------------------------
+  // 4) MIN/MAX FEE
+  // -------------------------------
   if (minFee || maxFee) {
     andConditions.push({
       fee: {
@@ -90,7 +96,9 @@ const getAllEvents = async (
     });
   }
 
-  // 🏷️ TYPE
+  // -------------------------------
+  // 5) type or category FILTER
+  // -------------------------------
   if (type) {
     andConditions.push({
       type: {
@@ -100,7 +108,6 @@ const getAllEvents = async (
     });
   }
 
-  // 📍 LOCATION
   if (location) {
     andConditions.push({
       location: {
@@ -110,7 +117,9 @@ const getAllEvents = async (
     });
   }
 
-  // ⚙️ OTHER FILTERS
+  // -------------------------------
+  // 6) REMAINING EXACT MATCH FILTERS
+  // -------------------------------
   if (Object.keys(rest).length > 0) {
     Object.keys(rest).forEach((key) => {
       andConditions.push({
@@ -124,58 +133,29 @@ const getAllEvents = async (
   const whereConditions: Prisma.EventWhereInput =
     andConditions.length > 0 ? { AND: andConditions } : {};
 
-  // =========================
-  // 🔥 MAIN QUERY
-  // =========================
   const events = await prisma.event.findMany({
     where: whereConditions,
     skip,
     take: limit,
-    orderBy: {
-      [sortBy]: sortOrder,
-    },
+    orderBy: { [sortBy]: sortOrder },
     include: {
-      host: {
-        select: {
-          id: true,
-          name: true,
-          image: true,
-        },
-      },
-
-      // 👉 only current user saved info
+      host: { select: { id: true, name: true, image: true } },
       savedEvents: userId
-        ? {
-            where: { userId },
-            select: { id: true },
-          }
+        ? { where: { userId }, select: { id: true } }
         : false,
     },
   });
 
-  // =========================
-  // 🔥 FORMAT RESPONSE
-  // =========================
-  const formattedEvents = events.map((event) => {
-    const { savedEvents, ...restEvent } = event;
+  const total = await prisma.event.count({ where: whereConditions });
 
-    return {
-      ...restEvent,
-      isSaved: userId ? savedEvents.length > 0 : false,
-    };
-  });
-
-  const total = await prisma.event.count({
-    where: whereConditions,
-  });
+  const data = events.map(({ savedEvents, ...event }) => ({
+    ...event,
+    isSaved: Array.isArray(savedEvents) && savedEvents.length > 0,
+  }));
 
   return {
-    meta: {
-      total,
-      page,
-      limit,
-    },
-    data: formattedEvents,
+    meta: { total, page, limit },
+    data,
   };
 };
 
