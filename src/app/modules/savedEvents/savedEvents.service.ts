@@ -10,11 +10,6 @@ export const SavedEventService = {
   // create save event on DB
   saveEvent: async (userId: string, eventId: string) => {
     const result = await prisma.$transaction(async (tnx) => {
-      await tnx.event.update({
-        where: { id: eventId },
-        data: { isSaved: true },
-      });
-
       return tnx.savedEvent.create({
         data: {
           userId,
@@ -31,11 +26,7 @@ export const SavedEventService = {
     // console.log("ids", userId,eventId)
 
     const result = await prisma.$transaction(async (tnx) => {
-      await tnx.event.update({
-        where: { id: eventId },
-        data: { isSaved: false},
-      });
-
+  
       return await tnx.savedEvent.delete({
         where: {
           userId_eventId: {
@@ -134,7 +125,7 @@ export const SavedEventService = {
       skip,
       take: limit,
       orderBy: {
-        [sortBy]: sortOrder,
+        [sortBy]: sortOrder, 
       },
       include: {
         event: {
