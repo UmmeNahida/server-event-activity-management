@@ -6,7 +6,6 @@ import {
 import { parseISO, isValid, startOfDay, endOfDay } from "date-fns";
 
 export const SavedEventService = {
-
   // create save event on DB
   saveEvent: async (userId: string, eventId: string) => {
     const result = await prisma.$transaction(async (tnx) => {
@@ -26,7 +25,6 @@ export const SavedEventService = {
     // console.log("ids", userId,eventId)
 
     const result = await prisma.$transaction(async (tnx) => {
-  
       return await tnx.savedEvent.delete({
         where: {
           userId_eventId: {
@@ -37,15 +35,14 @@ export const SavedEventService = {
       });
     });
 
-    return result
+    return result;
   },
-
 
   // get all save events by filtering and sorting
   getMySavedEvents: async (
     userId: string,
     options: Ioptions,
-    filters: any
+    filters: any,
   ) => {
     const { page, limit, skip, sortBy, sortOrder } =
       calcultatepagination(options);
@@ -125,7 +122,7 @@ export const SavedEventService = {
       skip,
       take: limit,
       orderBy: {
-        [sortBy]: sortOrder, 
+        [sortBy]: sortOrder,
       },
       include: {
         event: {
@@ -153,6 +150,11 @@ export const SavedEventService = {
       },
     });
 
+    const formattedData = savedEvent.map((item) => ({
+      ...item.event,
+      isSaved: true,
+    }));
+
     const total = await prisma.savedEvent.count({
       where: whereCondition,
     });
@@ -163,7 +165,7 @@ export const SavedEventService = {
         limit,
         total,
       },
-      data: savedEvent,
+      data: formattedData,
     };
   },
 };
